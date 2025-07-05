@@ -1,6 +1,6 @@
 // ipcHandlers.ts
 
-import { ipcMain, app } from "electron"
+import { ipcMain, app, IpcMainInvokeEvent, BrowserWindow } from "electron"
 import { AppState } from "./main"
 
 export function initializeIpcHandlers(appState: AppState): void {
@@ -103,6 +103,46 @@ export function initializeIpcHandlers(appState: AppState): void {
     }
   })
 
+  // IPC handler for generating solution with streaming option
+  ipcMain.handle("generate-solution", async (event: IpcMainInvokeEvent, problemInfo: any, stream: boolean = false) => {
+    try {
+      // Ensure the main window is set for streaming responses
+      const llmHelper = appState.processingHelper.getLLMHelper()
+      const mainWindow = appState.getMainWindow()
+      
+      if (mainWindow && stream) {
+        llmHelper.setMainWindow(mainWindow)
+      }
+      
+      console.log(`[ipcHandlers] Generating solution with streaming: ${stream}`)
+      const result = await llmHelper.generateSolution(problemInfo, stream)
+      return result
+    } catch (error: any) {
+      console.error("Error in generate-solution handler:", error)
+      throw error
+    }
+  })
+
+  // Set up listener for stream-reply event
+  const setupWindowForStreaming = (window: BrowserWindow | null) => {
+    if (window) {
+      window.webContents.on('did-finish-load', () => {
+        console.log("[ipcHandlers] Window loaded, setting up for streaming")
+        const llmHelper = appState.processingHelper.getLLMHelper()
+        llmHelper.setMainWindow(window)
+      })
+    }
+  }
+  
+  // Set up the current window if it exists
+  setupWindowForStreaming(appState.getMainWindow())
+  
+  // Also set up any new windows that get created
+  app.on('browser-window-created', (_, window) => {
+    console.log("[ipcHandlers] New window created, setting up for streaming")
+    setupWindowForStreaming(window)
+  })
+  
   ipcMain.handle("quit-app", () => {
     app.quit()
   })

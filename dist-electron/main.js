@@ -39,6 +39,10 @@ class AppState {
         this.screenshotHelper = new ScreenshotHelper_1.ScreenshotHelper(this.view);
         // Initialize ProcessingHelper
         this.processingHelper = new ProcessingHelper_1.ProcessingHelper(this);
+        // Set the main window for the LLMHelper once it's created
+        if (this.getMainWindow()) {
+            this.processingHelper.getLLMHelper().setMainWindow(this.getMainWindow());
+        }
         // Initialize ShortcutsHelper
         this.shortcutsHelper = new shortcuts_1.ShortcutsHelper(this);
     }
@@ -80,6 +84,10 @@ class AppState {
     // Window management methods
     createWindow() {
         this.windowHelper.createWindow();
+        // Set the main window for the LLMHelper
+        if (this.getMainWindow()) {
+            this.processingHelper.getLLMHelper().setMainWindow(this.getMainWindow());
+        }
     }
     hideMainWindow() {
         this.windowHelper.hideMainWindow();

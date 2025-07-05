@@ -22,12 +22,19 @@ class ProcessingHelper {
         if (!apiKey) {
             throw new Error("GEMINI_API_KEY not found in environment variables");
         }
-        this.llmHelper = new LLMHelper_1.LLMHelper(apiKey);
+        // Initialize LLMHelper with the API key and main window
+        const mainWindow = appState.getMainWindow();
+        this.llmHelper = new LLMHelper_1.LLMHelper(apiKey, mainWindow);
+        console.log(`[ProcessingHelper] Initialized LLMHelper with mainWindow: ${mainWindow ? 'available' : 'null'}`);
     }
     async processScreenshots() {
         const mainWindow = this.appState.getMainWindow();
-        if (!mainWindow)
+        if (!mainWindow) {
+            console.error("[ProcessingHelper] No main window available, cannot process screenshots");
             return;
+        }
+        // Update LLMHelper with the current main window reference
+        this.llmHelper.setMainWindow(mainWindow);
         const view = this.appState.getView();
         if (view === "queue") {
             const screenshotQueue = this.appState.getScreenshotHelper().getScreenshotQueue();
@@ -58,6 +65,9 @@ class ProcessingHelper {
             this.appState.setView("solutions");
             this.currentProcessingAbortController = new AbortController();
             try {
+                // Ensure LLMHelper has the latest window reference for streaming
+                this.llmHelper.setMainWindow(mainWindow);
+                console.log("[ProcessingHelper] Processing image file:", lastPath);
                 const imageResult = await this.llmHelper.analyzeImageFile(lastPath);
                 const problemInfo = {
                     problem_statement: imageResult.text,
@@ -96,8 +106,11 @@ class ProcessingHelper {
                 if (!problemInfo) {
                     throw new Error("No problem info available");
                 }
-                // Get current solution from state
-                const currentSolution = await this.llmHelper.generateSolution(problemInfo);
+                // Ensure LLMHelper has the current window reference
+                this.llmHelper.setMainWindow(mainWindow);
+                console.log("[ProcessingHelper] Generating solution with streaming enabled");
+                // Get current solution from state with streaming enabled
+                const currentSolution = await this.llmHelper.generateSolution(problemInfo, true);
                 const currentCode = currentSolution.solution.code;
                 // Debug the solution using vision model
                 const debugResult = await this.llmHelper.debugSolutionWithImages(problemInfo, currentCode, extraScreenshotQueue);
@@ -125,14 +138,29 @@ class ProcessingHelper {
         this.appState.setHasDebugged(false);
     }
     async processAudioBase64(data, mimeType) {
+        // Update LLMHelper with the current main window reference
+        const mainWindow = this.appState.getMainWindow();
+        if (mainWindow) {
+            this.llmHelper.setMainWindow(mainWindow);
+        }
         // Directly use LLMHelper to analyze inline base64 audio
         return this.llmHelper.analyzeAudioFromBase64(data, mimeType);
     }
     // Add audio file processing method
     async processAudioFile(filePath) {
+        // Update LLMHelper with the current main window reference
+        const mainWindow = this.appState.getMainWindow();
+        if (mainWindow) {
+            this.llmHelper.setMainWindow(mainWindow);
+        }
         return this.llmHelper.analyzeAudioFile(filePath);
     }
     getLLMHelper() {
+        // Ensure the helper has the latest main window reference
+        const mainWindow = this.appState.getMainWindow();
+        if (mainWindow) {
+            this.llmHelper.setMainWindow(mainWindow);
+        }
         return this.llmHelper;
     }
 }

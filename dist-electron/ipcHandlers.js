@@ -94,6 +94,41 @@ function initializeIpcHandlers(appState) {
             throw error;
         }
     });
+    // IPC handler for generating solution with streaming option
+    electron_1.ipcMain.handle("generate-solution", async (event, problemInfo, stream = false) => {
+        try {
+            // Ensure the main window is set for streaming responses
+            const llmHelper = appState.processingHelper.getLLMHelper();
+            const mainWindow = appState.getMainWindow();
+            if (mainWindow && stream) {
+                llmHelper.setMainWindow(mainWindow);
+            }
+            console.log(`[ipcHandlers] Generating solution with streaming: ${stream}`);
+            const result = await llmHelper.generateSolution(problemInfo, stream);
+            return result;
+        }
+        catch (error) {
+            console.error("Error in generate-solution handler:", error);
+            throw error;
+        }
+    });
+    // Set up listener for stream-reply event
+    const setupWindowForStreaming = (window) => {
+        if (window) {
+            window.webContents.on('did-finish-load', () => {
+                console.log("[ipcHandlers] Window loaded, setting up for streaming");
+                const llmHelper = appState.processingHelper.getLLMHelper();
+                llmHelper.setMainWindow(window);
+            });
+        }
+    };
+    // Set up the current window if it exists
+    setupWindowForStreaming(appState.getMainWindow());
+    // Also set up any new windows that get created
+    electron_1.app.on('browser-window-created', (_, window) => {
+        console.log("[ipcHandlers] New window created, setting up for streaming");
+        setupWindowForStreaming(window);
+    });
     electron_1.ipcMain.handle("quit-app", () => {
         electron_1.app.quit();
     });

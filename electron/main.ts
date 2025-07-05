@@ -46,13 +46,18 @@ export class AppState {
 
   constructor() {
     // Initialize WindowHelper with this
-    this.windowHelper = new WindowHelper(this)
+      this.windowHelper = new WindowHelper(this)
 
-    // Initialize ScreenshotHelper
-    this.screenshotHelper = new ScreenshotHelper(this.view)
+      // Initialize ScreenshotHelper
+      this.screenshotHelper = new ScreenshotHelper(this.view)
 
-    // Initialize ProcessingHelper
-    this.processingHelper = new ProcessingHelper(this)
+      // Initialize ProcessingHelper
+      this.processingHelper = new ProcessingHelper(this)
+    
+      // Set the main window for the LLMHelper once it's created
+      if (this.getMainWindow()) {
+        this.processingHelper.getLLMHelper().setMainWindow(this.getMainWindow()!)
+      }
 
     // Initialize ShortcutsHelper
     this.shortcutsHelper = new ShortcutsHelper(this)
@@ -106,6 +111,11 @@ export class AppState {
   // Window management methods
   public createWindow(): void {
     this.windowHelper.createWindow()
+    
+    // Set the main window for the LLMHelper
+    if (this.getMainWindow()) {
+      this.processingHelper.getLLMHelper().setMainWindow(this.getMainWindow()!)
+    }
   }
 
   public hideMainWindow(): void {

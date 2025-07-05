@@ -22,6 +22,7 @@ interface ElectronAPI {
   onProcessingNoScreenshots: (callback: () => void) => () => void
   onProblemExtracted: (callback: (data: any) => void) => () => void
   onSolutionSuccess: (callback: (data: any) => void) => () => void
+  onStreamReply: (callback: (chunk: string) => void) => () => void
 
   onUnauthorized: (callback: () => void) => () => void
   onDebugError: (callback: (error: string) => void) => () => void
@@ -31,6 +32,7 @@ interface ElectronAPI {
   analyzeAudioFromBase64: (data: string, mimeType: string) => Promise<{ text: string; timestamp: number }>
   analyzeAudioFile: (path: string) => Promise<{ text: string; timestamp: number }>
   analyzeImageFile: (path: string) => Promise<void>
+  generateSolution: (problemInfo: any, stream?: boolean) => Promise<any>
   quitApp: () => Promise<void>
 }
 
@@ -165,5 +167,14 @@ contextBridge.exposeInMainWorld("electronAPI", {
   analyzeAudioFromBase64: (data: string, mimeType: string) => ipcRenderer.invoke("analyze-audio-base64", data, mimeType),
   analyzeAudioFile: (path: string) => ipcRenderer.invoke("analyze-audio-file", path),
   analyzeImageFile: (path: string) => ipcRenderer.invoke("analyze-image-file", path),
+  onStreamReply: (callback: (chunk: string) => void) => {
+    const subscription = (_: any, chunk: string) => callback(chunk)
+    ipcRenderer.on("stream-reply", subscription)
+    return () => {
+      ipcRenderer.removeListener("stream-reply", subscription)
+    }
+  },
+  generateSolution: (problemInfo: any, stream: boolean = false) => 
+    ipcRenderer.invoke("generate-solution", problemInfo, stream),
   quitApp: () => ipcRenderer.invoke("quit-app")
 } as ElectronAPI)

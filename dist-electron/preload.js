@@ -111,6 +111,14 @@ electron_1.contextBridge.exposeInMainWorld("electronAPI", {
     analyzeAudioFromBase64: (data, mimeType) => electron_1.ipcRenderer.invoke("analyze-audio-base64", data, mimeType),
     analyzeAudioFile: (path) => electron_1.ipcRenderer.invoke("analyze-audio-file", path),
     analyzeImageFile: (path) => electron_1.ipcRenderer.invoke("analyze-image-file", path),
+    onStreamReply: (callback) => {
+        const subscription = (_, chunk) => callback(chunk);
+        electron_1.ipcRenderer.on("stream-reply", subscription);
+        return () => {
+            electron_1.ipcRenderer.removeListener("stream-reply", subscription);
+        };
+    },
+    generateSolution: (problemInfo, stream = false) => electron_1.ipcRenderer.invoke("generate-solution", problemInfo, stream),
     quitApp: () => electron_1.ipcRenderer.invoke("quit-app")
 });
 //# sourceMappingURL=preload.js.map
