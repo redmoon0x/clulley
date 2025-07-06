@@ -1,6 +1,15 @@
 # Free Cluely
 
-A desktop application to help you cheat on everything. 
+A desktop application to help you cheat on everything. A stealth AI assistant that provides discreet help in professional environments.
+
+## 📚 Documentation
+
+For a comprehensive understanding of this project, please review:
+
+- **[PROJECT_DOCUMENTATION.md](./PROJECT_DOCUMENTATION.md)** - Complete project overview
+- **[SYSTEM_DESIGN.md](./SYSTEM_DESIGN.md)** - Detailed system architecture
+- **[DATA_FLOW.md](./DATA_FLOW.md)** - Data flow diagrams and explanations
+- **[STEALTH_FEATURES.md](./STEALTH_FEATURES.md)** - Comprehensive stealth implementation details
 
 ## 🚀 Quick Start Guide
 
@@ -71,6 +80,7 @@ The built app will be in the `release` folder.
    - `Cmd/Ctrl + H`: Take screenshot
    - 'Cmd/Enter': Get solution
    - `Cmd/Ctrl + Arrow Keys`: Move window
+   - `Cmd/Ctrl+Escape`: Emergency hide (panic button)
 
 ### Troubleshooting
 
@@ -79,6 +89,20 @@ If you see errors:
 2. Delete `package-lock.json`
 3. Run `npm install` again
 4. Try running the app again using Method 1
+
+## Advanced Features
+
+For details on all stealth features, see [STEALTH_FEATURES.md](./STEALTH_FEATURES.md).
+
+## Frameless Window Design
+
+The application uses a completely frameless, transparent window design:
+- No window chrome or standard OS controls
+- Variable opacity based on interaction state
+- Not visible in taskbar/dock or application switchers
+- Content-aware sizing that minimizes screen real estate
+
+See [SYSTEM_DESIGN.md](./SYSTEM_DESIGN.md) for technical implementation details.
 
 ## Contribution
 
