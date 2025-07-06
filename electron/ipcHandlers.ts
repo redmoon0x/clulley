@@ -20,8 +20,7 @@ export function initializeIpcHandlers(appState: AppState): void {
   ipcMain.handle("take-screenshot", async () => {
     try {
       const screenshotPath = await appState.takeScreenshot()
-      const preview = await appState.getImagePreview(screenshotPath)
-      return { path: screenshotPath, preview }
+      return { path: screenshotPath, preview: "" }
     } catch (error) {
       console.error("Error taking screenshot:", error)
       throw error
@@ -36,14 +35,14 @@ export function initializeIpcHandlers(appState: AppState): void {
         previews = await Promise.all(
           appState.getScreenshotQueue().map(async (path) => ({
             path,
-            preview: await appState.getImagePreview(path)
+            preview: ""
           }))
         )
       } else {
         previews = await Promise.all(
           appState.getExtraScreenshotQueue().map(async (path) => ({
             path,
-            preview: await appState.getImagePreview(path)
+            preview: ""
           }))
         )
       }

@@ -154,10 +154,7 @@ export class AppState {
   public async takeScreenshot(): Promise<string> {
     if (!this.getMainWindow()) throw new Error("No main window available")
 
-    const screenshotPath = await this.screenshotHelper.takeScreenshot(
-      () => this.hideMainWindow(),
-      () => this.showMainWindow()
-    )
+    const screenshotPath = await this.screenshotHelper.takeScreenshot()
 
     return screenshotPath
   }

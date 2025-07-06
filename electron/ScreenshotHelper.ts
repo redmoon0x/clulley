@@ -74,11 +74,7 @@ export class ScreenshotHelper {
     this.extraScreenshotQueue = []
   }
 
-  public async takeScreenshot(
-    hideMainWindow: () => void,
-    showMainWindow: () => void
-  ): Promise<string> {
-    hideMainWindow()
+  public async takeScreenshot(): Promise<string> {
     let screenshotPath = ""
 
     if (this.view === "queue") {
@@ -113,7 +109,6 @@ export class ScreenshotHelper {
       }
     }
 
-    showMainWindow()
     return screenshotPath
   }
 
