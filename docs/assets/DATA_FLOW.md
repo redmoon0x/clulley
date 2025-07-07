@@ -1,8 +1,8 @@
-# Free-Cluely Data Flow Documentation
+# clulley Data Flow Documentation
 
 ## Overview
 
-This document details the flow of data through the Free-Cluely application, from user input capture to AI processing and response display. Understanding these data flows is essential for developers working on the codebase and for troubleshooting issues. All data flows have been designed with stealth and privacy as primary considerations, ensuring minimal visible footprint and maximum discretion.
+This document details the flow of data through the clulley application, from user input capture to AI processing and response display. Understanding these data flows is essential for developers working on the codebase and for troubleshooting issues. All data flows have been designed with stealth and privacy as primary considerations, ensuring minimal visible footprint and maximum discretion.
 
 ## Core Data Flows
 
@@ -299,4 +299,4 @@ flowchart TD
 
 ## Conclusion
 
-The Free-Cluely application employs a carefully designed data flow architecture that balances performance, security, and user experience, with stealth as a primary design consideration. Every data path, visual element, and interaction method has been engineered to minimize detectability while maintaining full functionality. The multi-process nature of Electron is leveraged to maintain process isolation while enabling rich functionality through controlled data exchange via IPC mechanisms, all while ensuring the application remains virtually invisible to casual observers.
+The clulley application employs a carefully designed data flow architecture that balances performance, security, and user experience, with stealth as a primary design consideration. Every data path, visual element, and interaction method has been engineered to minimize detectability while maintaining full functionality. The multi-process nature of Electron is leveraged to maintain process isolation while enabling rich functionality through controlled data exchange via IPC mechanisms, all while ensuring the application remains virtually invisible to casual observers.

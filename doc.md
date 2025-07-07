@@ -60,4 +60,4 @@ Roy was trolling interviews, but here's the thing—this invisible overlay tech 
 
 ### Want to Use This for Good?
 
-Everything's open-sourced right [here](https://github.com/Prat011/free-cluely). If this sounds like something your team could use ethically and effectively, reach out. Let's build something legit. You can contact me at prathit3.14@gmail.com
+Everything's open-sourced right [here](https://github.com/Prat011/clulley). If this sounds like something your team could use ethically and effectively, reach out. Let's build something legit. You can contact me at prathit3.14@gmail.com

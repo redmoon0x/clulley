@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Free-Cluely Documentation</title>
+    <title>clulley Documentation</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <header>
-        <h1>Free-Cluely Documentation</h1>
+        <h1>clulley Documentation</h1>
         <nav>
             <a href="#project-documentation">Project Docs</a>
             <a href="#system-design">System Design</a>
@@ -20,10 +20,10 @@
     </header>
     <main>
         <section id="project-documentation">
-            <h1>Free-Cluely: The Stealth AI Assistant</h1>
+            <h1>clulley: The Stealth AI Assistant</h1>
             <h2>Project Overview</h2>
-            <p>Free-Cluely is an advanced AI assistant designed for discreet use in professional environments. It floats above other applications, ready to provide instant help for software engineers through screenshots, audio analysis, and text-based interactions - all while remaining unobtrusive and easily dismissible.</p>
-            <p>The application leverages modern AI technology, specifically Google's Gemini models, to analyze inputs and generate context-aware responses. What sets Free-Cluely apart is its focus on stealth and privacy - allowing users to get AI assistance without drawing attention or disrupting their workflow.</p>
+            <p>clulley is an advanced AI assistant designed for discreet use in professional environments. It floats above other applications, ready to provide instant help for software engineers through screenshots, audio analysis, and text-based interactions - all while remaining unobtrusive and easily dismissible.</p>
+            <p>The application leverages modern AI technology, specifically Google's Gemini models, to analyze inputs and generate context-aware responses. What sets clulley apart is its focus on stealth and privacy - allowing users to get AI assistance without drawing attention or disrupting their workflow.</p>
             <h2>Documentation Structure</h2>
             <p>For comprehensive understanding of this project, please review the following documentation:</p>
             <ul>
@@ -74,7 +74,7 @@
                 </li>
             </ol>
             <h2>Key Stealth Features</h2>
-            <p>Free-Cluely incorporates advanced stealth features designed to make the application discreet and unobtrusive. For a comprehensive overview of all stealth features, please refer to <a href="#stealth-features">STEALTH_FEATURES.md</a>.</p>
+            <p>clulley incorporates advanced stealth features designed to make the application discreet and unobtrusive. For a comprehensive overview of all stealth features, please refer to <a href="#stealth-features">STEALTH_FEATURES.md</a>.</p>
             <h3>1. Frameless Window Architecture</h3>
             <p>The application uses a completely frameless window implementation that eliminates all standard OS window decorations and controls:</p>
             <ul>
@@ -161,14 +161,14 @@ public moveWindowLeft(): void {
 </code></pre>
             <h2>Usage Workflow</h2>
             <ol>
-                <li><strong>Activation</strong>: Press Cmd/Ctrl+Space to show the Free-Cluely window, or use the triple-Escape stealth activation</li>
+                <li><strong>Activation</strong>: Press Cmd/Ctrl+Space to show the clulley window, or use the triple-Escape stealth activation</li>
                 <li><strong>Input</strong>: Capture a screenshot, record audio, or type a question</li>
                 <li><strong>Processing</strong>: The AI analyzes the input and generates a response with real-time streaming</li>
                 <li><strong>Result</strong>: View the AI's suggestions, code samples, or explanations</li>
                 <li><strong>Stealth Control</strong>: Use keyboard shortcuts or panic button as needed</li>
             </ol>
             <h2>Privacy and Security Considerations</h2>
-            <p>Free-Cluely implements comprehensive security measures:</p>
+            <p>clulley implements comprehensive security measures:</p>
             <ul>
                 <li>Frameless window with no OS-level visibility</li>
                 <li>No persistent storage of user interactions</li>
@@ -191,7 +191,7 @@ public moveWindowLeft(): void {
                 <li><strong>API Key</strong>: Google Gemini API key</li>
             </ul>
             <h2>Conclusion</h2>
-            <p>Free-Cluely represents a new approach to AI assistance that prioritizes discretion and seamless integration into professional workflows. By combining advanced AI capabilities with innovative stealth features like frameless windows, the application allows users to leverage AI assistance without drawing attention or disrupting their environment.</p>
+            <p>clulley represents a new approach to AI assistance that prioritizes discretion and seamless integration into professional workflows. By combining advanced AI capabilities with innovative stealth features like frameless windows, the application allows users to leverage AI assistance without drawing attention or disrupting their environment.</p>
             <p>The combination of Google's Gemini models and Electron's system integration capabilities creates a uniquely powerful tool for professionals who need quick, reliable AI assistance while maintaining complete privacy and discretion.</p>
             <p>For developers interested in the complete implementation details, please review the accompanying technical documentation files:</p>
             <ul>
@@ -201,9 +201,9 @@ public moveWindowLeft(): void {
             </ul>
         </section>
         <section id="system-design">
-            <h1>Free-Cluely System Design Documentation</h1>
+            <h1>clulley System Design Documentation</h1>
             <h2>System Architecture Overview</h2>
-            <p>Free-Cluely is built on a multi-process architecture leveraging Electron to combine web technologies with desktop capabilities. The system consists of four main architectural components:</p>
+            <p>clulley is built on a multi-process architecture leveraging Electron to combine web technologies with desktop capabilities. The system consists of four main architectural components:</p>
             <ol>
                 <li><strong>Main Process (Node.js)</strong>: Controls application lifecycle and system integration</li>
                 <li><strong>Renderer Process (React)</strong>: Handles UI presentation and user interactions</li>
@@ -315,7 +315,7 @@ public moveWindowLeft(): void {
 </tbody>
 </table>
             <h3>4. Data Storage</h3>
-            <p>Free-Cluely uses a combination of in-memory state and temporary file storage:</p>
+            <p>clulley uses a combination of in-memory state and temporary file storage:</p>
             <table>
 <thead>
 <tr>
@@ -344,7 +344,7 @@ public moveWindowLeft(): void {
 </table>
             <h2>System Design Principles</h2>
             <h3>1. Process Isolation</h3>
-            <p>Free-Cluely maintains strict separation between the main and renderer processes:</p>
+            <p>clulley maintains strict separation between the main and renderer processes:</p>
             <ul>
                 <li>Main process handles privileged operations (screenshots, file system, window management)</li>
                 <li>Renderer process focuses on UI rendering and user interactions</li>
@@ -491,7 +491,7 @@ if (process.platform === "linux") {
 └───────────────────────┘
 </code></pre>
             <h2>Error Handling and Recovery</h2>
-            <p>Free-Cluely implements a comprehensive error handling strategy:</p>
+            <p>clulley implements a comprehensive error handling strategy:</p>
             <ol>
                 <li><strong>Graceful Degradation</strong>: Fall back to simpler functionality when advanced features fail</li>
                 <li><strong>Error Isolation</strong>: Errors in one component don't crash the entire application</li>
@@ -569,7 +569,7 @@ if (process.platform === "linux") {
                 <li><strong>Streaming Responses</strong>: AI responses stream in chunks for faster perceived performance</li>
             </ol>
             <h2>Scalability Considerations</h2>
-            <p>While Free-Cluely is primarily a desktop application, the architecture allows for:</p>
+            <p>While clulley is primarily a desktop application, the architecture allows for:</p>
             <ol>
                 <li><strong>Model Switching</strong>: Easy transition between different AI models</li>
                 <li><strong>Feature Extensibility</strong>: New analysis capabilities can be added by extending the LLMHelper</li>
@@ -593,9 +593,9 @@ if (process.platform === "linux") {
             </ol>
         </section>
         <section id="data-flow">
-            <h1>Free-Cluely Data Flow Documentation</h1>
+            <h1>clulley Data Flow Documentation</h1>
             <h2>Overview</h2>
-            <p>This document details the flow of data through the Free-Cluely application, from user input capture to AI processing and response display. Understanding these data flows is essential for developers working on the codebase and for troubleshooting issues. All data flows have been designed with stealth and privacy as primary considerations, ensuring minimal visible footprint and maximum discretion.</p>
+            <p>This document details the flow of data through the clulley application, from user input capture to AI processing and response display. Understanding these data flows is essential for developers working on the codebase and for troubleshooting issues. All data flows have been designed with stealth and privacy as primary considerations, ensuring minimal visible footprint and maximum discretion.</p>
             <h2>Core Data Flows</h2>
             <h3>1. Screenshot Capture Flow</h3>
             <pre><code>flowchart TD
@@ -925,12 +925,12 @@ if (process.platform === "linux") {
                 <li><strong>Process Termination</strong>: Complete application shutdown with no traces</li>
             </ol>
             <h2>Conclusion</h2>
-            <p>The Free-Cluely application employs a carefully designed data flow architecture that balances performance, security, and user experience, with stealth as a primary design consideration. Every data path, visual element, and interaction method has been engineered to minimize detectability while maintaining full functionality. The multi-process nature of Electron is leveraged to maintain process isolation while enabling rich functionality through controlled data exchange via IPC mechanisms, all while ensuring the application remains virtually invisible to casual observers.</p>
+            <p>The clulley application employs a carefully designed data flow architecture that balances performance, security, and user experience, with stealth as a primary design consideration. Every data path, visual element, and interaction method has been engineered to minimize detectability while maintaining full functionality. The multi-process nature of Electron is leveraged to maintain process isolation while enabling rich functionality through controlled data exchange via IPC mechanisms, all while ensuring the application remains virtually invisible to casual observers.</p>
         </section>
         <section id="stealth-features">
-            <h1>Free-Cluely: Advanced Stealth Implementation</h1>
+            <h1>clulley: Advanced Stealth Implementation</h1>
             <h2>Overview</h2>
-            <p>Free-Cluely is designed from the ground up as a covert AI assistance tool that maintains complete discretion in professional environments. This document details the comprehensive stealth capabilities implemented throughout the application.</p>
+            <p>clulley is designed from the ground up as a covert AI assistance tool that maintains complete discretion in professional environments. This document details the comprehensive stealth capabilities implemented throughout the application.</p>
             <h2>Core Stealth Philosophy</h2>
             <p>The stealth implementation follows three core principles:</p>
             <ol>
@@ -1136,7 +1136,7 @@ const newX = Math.min(Math.max(currentX, 0), maxX);
                 <li>Remembers position between sessions</li>
             </ul>
             <h2>Conclusion</h2>
-            <p>Free-Cluely's stealth implementation represents a comprehensive approach to creating a truly discreet AI assistant. By combining frameless window techniques, minimal visual design, and secure data handling, the application provides powerful AI capabilities that remain virtually invisible to observers.</p>
+            <p>clulley's stealth implementation represents a comprehensive approach to creating a truly discreet AI assistant. By combining frameless window techniques, minimal visual design, and secure data handling, the application provides powerful AI capabilities that remain virtually invisible to observers.</p>
             <p>The multi-layered stealth approach ensures that users can leverage AI assistance in any professional environment without drawing attention or revealing that they are using AI support.</p>
         </section>
         <section id="readme">
@@ -1252,7 +1252,7 @@ kill [PID]
         <section id="system-architecture">
             <h2>System Architecture</h2>
             <pre><code>+---------------------------------------------+
-|               FREE-CLUELY SYSTEM            |
+|               clulley SYSTEM            |
 +---------------------------------------------+
                       |
             +---------+---------+

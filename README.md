@@ -1,8 +1,8 @@
-# Free-Cluely: The Stealth AI Assistant
+# clulley: The Stealth AI Assistant
 
-Free-Cluely is an advanced AI assistant designed for discreet use in professional environments. It floats above other applications, ready to provide instant help for software engineers through screenshots, audio analysis, and text-based interactions - all while remaining unobtrusive and easily dismissible.
+clulley is an advanced AI assistant designed for discreet use in professional environments. It floats above other applications, ready to provide instant help for software engineers through screenshots, audio analysis, and text-based interactions - all while remaining unobtrusive and easily dismissible.
 
-The application leverages modern AI technology, specifically Google's Gemini models, to analyze inputs and generate context-aware responses. What sets Free-Cluely apart is its focus on stealth and privacy - allowing users to get AI assistance without drawing attention or disrupting their workflow.
+The application leverages modern AI technology, specifically Google's Gemini models, to analyze inputs and generate context-aware responses. What sets clulley apart is its focus on stealth and privacy - allowing users to get AI assistance without drawing attention or disrupting their workflow.
 
 ## Key Features
 

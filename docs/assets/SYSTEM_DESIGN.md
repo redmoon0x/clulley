@@ -1,8 +1,8 @@
-# Free-Cluely System Design Documentation
+# clulley System Design Documentation
 
 ## System Architecture Overview
 
-Free-Cluely is built on a multi-process architecture leveraging Electron to combine web technologies with desktop capabilities. The system consists of four main architectural components:
+clulley is built on a multi-process architecture leveraging Electron to combine web technologies with desktop capabilities. The system consists of four main architectural components:
 
 1. **Main Process (Node.js)**: Controls application lifecycle and system integration
 2. **Renderer Process (React)**: Handles UI presentation and user interactions
@@ -48,7 +48,7 @@ The renderer process is built with React and handles all user interface elements
 
 ### 4. Data Storage
 
-Free-Cluely uses a combination of in-memory state and temporary file storage:
+clulley uses a combination of in-memory state and temporary file storage:
 
 | Storage | Purpose | Implementation |
 |---------|---------|----------------|
@@ -60,7 +60,7 @@ Free-Cluely uses a combination of in-memory state and temporary file storage:
 
 ### 1. Process Isolation
 
-Free-Cluely maintains strict separation between the main and renderer processes:
+clulley maintains strict separation between the main and renderer processes:
 
 - Main process handles privileged operations (screenshots, file system, window management)
 - Renderer process focuses on UI rendering and user interactions
@@ -217,7 +217,7 @@ The AI processing subsystem manages interactions with Google's Gemini models:
 
 ## Error Handling and Recovery
 
-Free-Cluely implements a comprehensive error handling strategy:
+clulley implements a comprehensive error handling strategy:
 
 1. **Graceful Degradation**: Fall back to simpler functionality when advanced features fail
 2. **Error Isolation**: Errors in one component don't crash the entire application
@@ -281,7 +281,7 @@ The system architecture implements comprehensive security and privacy protection
 
 ## Scalability Considerations
 
-While Free-Cluely is primarily a desktop application, the architecture allows for:
+While clulley is primarily a desktop application, the architecture allows for:
 
 1. **Model Switching**: Easy transition between different AI models
 2. **Feature Extensibility**: New analysis capabilities can be added by extending the LLMHelper

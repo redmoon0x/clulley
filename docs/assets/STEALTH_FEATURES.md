@@ -1,8 +1,8 @@
-# Free-Cluely: Advanced Stealth Implementation
+# clulley: Advanced Stealth Implementation
 
 ## Overview
 
-Free-Cluely is designed from the ground up as a covert AI assistance tool that maintains complete discretion in professional environments. This document details the comprehensive stealth capabilities implemented throughout the application.
+clulley is designed from the ground up as a covert AI assistance tool that maintains complete discretion in professional environments. This document details the comprehensive stealth capabilities implemented throughout the application.
 
 ## Core Stealth Philosophy
 
@@ -236,6 +236,6 @@ const newX = Math.min(Math.max(currentX, 0), maxX);
 
 ## Conclusion
 
-Free-Cluely's stealth implementation represents a comprehensive approach to creating a truly discreet AI assistant. By combining frameless window techniques, minimal visual design, and secure data handling, the application provides powerful AI capabilities that remain virtually invisible to observers.
+clulley's stealth implementation represents a comprehensive approach to creating a truly discreet AI assistant. By combining frameless window techniques, minimal visual design, and secure data handling, the application provides powerful AI capabilities that remain virtually invisible to observers.
 
 The multi-layered stealth approach ensures that users can leverage AI assistance in any professional environment without drawing attention or revealing that they are using AI support.

@@ -1,10 +1,10 @@
-# Free-Cluely: The Stealth AI Assistant
+# clulley: The Stealth AI Assistant
 
 ## Project Overview
 
-Free-Cluely is an advanced AI assistant designed for discreet use in professional environments. It floats above other applications, ready to provide instant help for software engineers through screenshots, audio analysis, and text-based interactions - all while remaining unobtrusive and easily dismissible.
+clulley is an advanced AI assistant designed for discreet use in professional environments. It floats above other applications, ready to provide instant help for software engineers through screenshots, audio analysis, and text-based interactions - all while remaining unobtrusive and easily dismissible.
 
-The application leverages modern AI technology, specifically Google's Gemini models, to analyze inputs and generate context-aware responses. What sets Free-Cluely apart is its focus on stealth and privacy - allowing users to get AI assistance without drawing attention or disrupting their workflow.
+The application leverages modern AI technology, specifically Google's Gemini models, to analyze inputs and generate context-aware responses. What sets clulley apart is its focus on stealth and privacy - allowing users to get AI assistance without drawing attention or disrupting their workflow.
 
 ## Documentation Structure
 
@@ -50,7 +50,7 @@ For comprehensive understanding of this project, please review the following doc
 
 ## Key Stealth Features
 
-Free-Cluely incorporates advanced stealth features designed to make the application discreet and unobtrusive. For a comprehensive overview of all stealth features, please refer to [STEALTH_FEATURES.md](./STEALTH_FEATURES.md).
+clulley incorporates advanced stealth features designed to make the application discreet and unobtrusive. For a comprehensive overview of all stealth features, please refer to [STEALTH_FEATURES.md](./STEALTH_FEATURES.md).
 
 ### 1. Frameless Window Architecture
 
@@ -151,7 +151,7 @@ public moveWindowLeft(): void {
 
 ## Usage Workflow
 
-1. **Activation**: Press Cmd/Ctrl+Space to show the Free-Cluely window, or use the triple-Escape stealth activation
+1. **Activation**: Press Cmd/Ctrl+Space to show the clulley window, or use the triple-Escape stealth activation
 2. **Input**: Capture a screenshot, record audio, or type a question
 3. **Processing**: The AI analyzes the input and generates a response with real-time streaming
 4. **Result**: View the AI's suggestions, code samples, or explanations
@@ -159,7 +159,7 @@ public moveWindowLeft(): void {
 
 ## Privacy and Security Considerations
 
-Free-Cluely implements comprehensive security measures:
+clulley implements comprehensive security measures:
 
 - Frameless window with no OS-level visibility
 - No persistent storage of user interactions
@@ -181,7 +181,7 @@ For complete details on security implementation, see [SYSTEM_DESIGN.md](./SYSTEM
 
 ## Conclusion
 
-Free-Cluely represents a new approach to AI assistance that prioritizes discretion and seamless integration into professional workflows. By combining advanced AI capabilities with innovative stealth features like frameless windows, the application allows users to leverage AI assistance without drawing attention or disrupting their environment.
+clulley represents a new approach to AI assistance that prioritizes discretion and seamless integration into professional workflows. By combining advanced AI capabilities with innovative stealth features like frameless windows, the application allows users to leverage AI assistance without drawing attention or disrupting their environment.
 
 The combination of Google's Gemini models and Electron's system integration capabilities creates a uniquely powerful tool for professionals who need quick, reliable AI assistance while maintaining complete privacy and discretion.
 
