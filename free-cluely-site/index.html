@@ -1,0 +1,1328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free-Cluely Documentation</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Free-Cluely Documentation</h1>
+        <nav>
+            <a href="#project-documentation">Project Docs</a>
+            <a href="#system-design">System Design</a>
+            <a href="#data-flow">Data Flow</a>
+            <a href="#stealth-features">Stealth Features</a>
+            <a href="#readme">README</a>
+            <a href="#system-architecture">System Architecture</a>
+        </nav>
+    </header>
+    <main>
+        <section id="project-documentation">
+            <h1>Free-Cluely: The Stealth AI Assistant</h1>
+            <h2>Project Overview</h2>
+            <p>Free-Cluely is an advanced AI assistant designed for discreet use in professional environments. It floats above other applications, ready to provide instant help for software engineers through screenshots, audio analysis, and text-based interactions - all while remaining unobtrusive and easily dismissible.</p>
+            <p>The application leverages modern AI technology, specifically Google's Gemini models, to analyze inputs and generate context-aware responses. What sets Free-Cluely apart is its focus on stealth and privacy - allowing users to get AI assistance without drawing attention or disrupting their workflow.</p>
+            <h2>Documentation Structure</h2>
+            <p>For comprehensive understanding of this project, please review the following documentation:</p>
+            <ul>
+                <li><strong><a href="#project-documentation">PROJECT_DOCUMENTATION.md</a></strong> - This file, general overview</li>
+                <li><strong><a href="#system-design">SYSTEM_DESIGN.md</a></strong> - Detailed system architecture</li>
+                <li><strong><a href="#data-flow">DATA_FLOW.md</a></strong> - Data flow diagrams and explanations</li>
+                <li><strong><a href="#stealth-features">STEALTH_FEATURES.md</a></strong> - Comprehensive stealth implementation details</li>
+            </ul>
+            <h2>Technical Architecture</h2>
+            <h3>Core Technologies</h3>
+            <ul>
+                <li><strong>Electron</strong>: Cross-platform desktop framework</li>
+                <li><strong>React</strong>: Frontend UI library</li>
+                <li><strong>TypeScript</strong>: Type-safe JavaScript</li>
+                <li><strong>Google Gemini API</strong>: Advanced AI model integration</li>
+            </ul>
+            <h3>Main Components</h3>
+            <ol>
+                <li><strong>Main Process (Electron)</strong>
+                    <ul>
+                        <li>Handles window management</li>
+                        <li>Captures screenshots</li>
+                        <li>Manages IPC communication</li>
+                        <li>Controls application lifecycle</li>
+                    </ul>
+                </li>
+                <li><strong>Renderer Process (React)</strong>
+                    <ul>
+                        <li>User interface with minimal design</li>
+                        <li>Queue view for input management</li>
+                        <li>Solutions view for AI responses</li>
+                    </ul>
+                </li>
+                <li><strong>LLM Helper</strong>
+                    <ul>
+                        <li>Interfaces with Google Gemini API</li>
+                        <li>Manages streaming responses</li>
+                        <li>Processes multimodal inputs (images, audio)</li>
+                        <li>Formats AI responses</li>
+                    </ul>
+                </li>
+                <li><strong>Processing Helper</strong>
+                    <ul>
+                        <li>Coordinates data flow between UI and AI</li>
+                        <li>Manages processing queue</li>
+                        <li>Handles debug workflows</li>
+                    </ul>
+                </li>
+            </ol>
+            <h2>Key Stealth Features</h2>
+            <p>Free-Cluely incorporates advanced stealth features designed to make the application discreet and unobtrusive. For a comprehensive overview of all stealth features, please refer to <a href="#stealth-features">STEALTH_FEATURES.md</a>.</p>
+            <h3>1. Frameless Window Architecture</h3>
+            <p>The application uses a completely frameless window implementation that eliminates all standard OS window decorations and controls:</p>
+            <ul>
+                <li>Zero-chrome window with full transparency</li>
+                <li>No taskbar or dock presence</li>
+                <li>Dynamic opacity based on interaction state</li>
+                <li>Automatic positioning to avoid drawing attention</li>
+                <li>Content-aware resizing to minimize screen footprint</li>
+            </ul>
+            <h3>2. Multi-modal Interaction</h3>
+            <p>The application supports multiple discreet interaction methods:</p>
+            <ul>
+                <li><strong>Keyboard shortcuts</strong>: Comprehensive global shortcuts</li>
+                <li><strong>Triple-Escape pattern</strong>: Stealth activation sequence</li>
+                <li><strong>Smart positioning</strong>: Window automatically adjusts position</li>
+            </ul>
+            <h3>3. Content Privacy Features</h3>
+            <p>Advanced content protection features include:</p>
+            <ul>
+                <li>Auto-blur when window loses focus</li>
+                <li>No persistent storage of interaction history</li>
+                <li>Secure deletion of all temporary files</li>
+                <li>Memory-only processing where possible</li>
+                <li>Emergency "panic button" for instant hiding</li>
+            </ul>
+            <h2>Technical Implementation Details</h2>
+            <p>For comprehensive technical details, please refer to <a href="#system-design">SYSTEM_DESIGN.md</a> and <a href="#data-flow">DATA_FLOW.md</a>. Below is a brief overview of key technical components:</p>
+            <h3>Google Gemini API Integration</h3>
+            <p>The application uses the latest <code>@google/genai</code> SDK to interact with Google's Gemini models:</p>
+            <pre><code>import { GoogleGenAI } from "@google/genai"
+
+export class LLMHelper {
+  private ai: GoogleGenAI
+  private modelName: string = "gemini-2.0-flash"
+  
+  constructor(apiKey: string, mainWindow?: BrowserWindow | null) {
+    this.ai = new GoogleGenAI({ apiKey });
+    this.mainWindow = mainWindow || null;
+  }
+  
+  // Methods for generating content, analyzing images, etc.
+}
+</code></pre>
+            <h3>Electron Multi-Process Architecture</h3>
+            <p>The application leverages Electron's main and renderer process separation:</p>
+            <ul>
+                <li><strong>Main Process</strong>: Handles system-level operations (screenshots, window management)</li>
+                <li><strong>Renderer Process</strong>: Manages UI and user interactions</li>
+                <li><strong>IPC Bridge</strong>: Secure communication between processes</li>
+                <li><strong>Preload Script</strong>: Controlled exposure of APIs to renderer</li>
+            </ul>
+            <h3>Stealth Window Management</h3>
+            <pre><code>// Window configuration for maximum stealth
+const windowSettings: Electron.BrowserWindowConstructorOptions = {
+  show: true,
+  alwaysOnTop: true,
+  frame: false,
+  transparent: true,
+  fullscreenable: false,
+  hasShadow: false,
+  backgroundColor: "#00000000",
+  focusable: true
+}
+
+// Platform-specific optimizations
+if (process.platform === "darwin") {
+  this.mainWindow.setVisibleOnAllWorkspaces(true, {
+    visibleOnFullScreen: true
+  })
+  this.mainWindow.setHiddenInMissionControl(true)
+}
+
+// Window position management
+public moveWindowLeft(): void {
+  if (!this.mainWindow) return
+  const windowWidth = this.windowSize?.width || 0
+  const halfWidth = windowWidth / 2
+  this.currentX = Math.max(-halfWidth, this.currentX - this.step)
+  this.mainWindow.setPosition(
+    Math.round(this.currentX),
+    Math.round(this.currentY)
+  )
+}
+</code></pre>
+            <h2>Usage Workflow</h2>
+            <ol>
+                <li><strong>Activation</strong>: Press Cmd/Ctrl+Space to show the Free-Cluely window, or use the triple-Escape stealth activation</li>
+                <li><strong>Input</strong>: Capture a screenshot, record audio, or type a question</li>
+                <li><strong>Processing</strong>: The AI analyzes the input and generates a response with real-time streaming</li>
+                <li><strong>Result</strong>: View the AI's suggestions, code samples, or explanations</li>
+                <li><strong>Stealth Control</strong>: Use keyboard shortcuts or panic button as needed</li>
+            </ol>
+            <h2>Privacy and Security Considerations</h2>
+            <p>Free-Cluely implements comprehensive security measures:</p>
+            <ul>
+                <li>Frameless window with no OS-level visibility</li>
+                <li>No persistent storage of user interactions</li>
+                <li>Memory-only processing with secure cleanup</li>
+                <li>Emergency "panic button" functionality</li>
+                <li>Auto-blur when window loses focus</li>
+                <li>No taskbar or application switcher presence</li>
+            </ul>
+            <p>For complete details on security implementation, see <a href="#system-design">SYSTEM_DESIGN.md</a>.</p>
+            <h2>System Requirements</h2>
+            <ul>
+                <li><strong>Operating System</strong>: Windows 10/11, macOS 10.15+, or Linux</li>
+                <li><strong>Hardware</strong>: 
+                    <ul>
+                        <li>4GB RAM minimum (8GB recommended)</li>
+                        <li>Intel i5/AMD Ryzen 5 or better</li>
+                    </ul>
+                </li>
+                <li><strong>Network</strong>: Internet connection for API calls</li>
+                <li><strong>API Key</strong>: Google Gemini API key</li>
+            </ul>
+            <h2>Conclusion</h2>
+            <p>Free-Cluely represents a new approach to AI assistance that prioritizes discretion and seamless integration into professional workflows. By combining advanced AI capabilities with innovative stealth features like frameless windows, the application allows users to leverage AI assistance without drawing attention or disrupting their environment.</p>
+            <p>The combination of Google's Gemini models and Electron's system integration capabilities creates a uniquely powerful tool for professionals who need quick, reliable AI assistance while maintaining complete privacy and discretion.</p>
+            <p>For developers interested in the complete implementation details, please review the accompanying technical documentation files:</p>
+            <ul>
+                <li><a href="#system-design">SYSTEM_DESIGN.md</a></li>
+                <li><a href="#data-flow">DATA_FLOW.md</a></li>
+                <li><a href="#stealth-features">STEALTH_FEATURES.md</a></li>
+            </ul>
+        </section>
+        <section id="system-design">
+            <h1>Free-Cluely System Design Documentation</h1>
+            <h2>System Architecture Overview</h2>
+            <p>Free-Cluely is built on a multi-process architecture leveraging Electron to combine web technologies with desktop capabilities. The system consists of four main architectural components:</p>
+            <ol>
+                <li><strong>Main Process (Node.js)</strong>: Controls application lifecycle and system integration</li>
+                <li><strong>Renderer Process (React)</strong>: Handles UI presentation and user interactions</li>
+                <li><strong>Processing Layer</strong>: Manages AI-driven analysis and response generation</li>
+                <li><strong>Communication Layer</strong>: Facilitates inter-process communication</li>
+            </ol>
+            <h2>Core Components</h2>
+            <h3>1. Main Process Components</h3>
+            <p>The main process runs in a Node.js environment and serves as the bridge between the operating system and the application.</p>
+            <table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Purpose</th>
+<th>Implementation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>WindowHelper</code></td>
+<td>Window creation, positioning, and stealth UI</td>
+<td><code>electron/WindowHelper.ts</code></td>
+</tr>
+<tr>
+<td><code>ScreenshotHelper</code></td>
+<td>Screen capture, image processing</td>
+<td><code>electron/ScreenshotHelper.ts</code></td>
+</tr>
+<tr>
+<td><code>ShortcutsHelper</code></td>
+<td>Global keyboard shortcuts</td>
+<td><code>electron/shortcuts.ts</code></td>
+</tr>
+<tr>
+<td><code>ProcessingHelper</code></td>
+<td>Manages AI processing workflows</td>
+<td><code>electron/ProcessingHelper.ts</code></td>
+</tr>
+<tr>
+<td><code>IPC Handlers</code></td>
+<td>Communication with renderer process</td>
+<td><code>electron/ipcHandlers.ts</code></td>
+</tr>
+</tbody>
+</table>
+            <h3>2. Renderer Process Components</h3>
+            <p>The renderer process is built with React and handles all user interface elements.</p>
+            <table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Purpose</th>
+<th>Implementation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>App</code></td>
+<td>Main application container</td>
+<td><code>src/App.tsx</code></td>
+</tr>
+<tr>
+<td><code>Queue</code></td>
+<td>Screenshot/input management</td>
+<td><code>src/_pages/Queue.tsx</code></td>
+</tr>
+<tr>
+<td><code>Solutions</code></td>
+<td>AI response display</td>
+<td><code>src/_pages/Solutions.tsx</code></td>
+</tr>
+<tr>
+<td><code>UI Components</code></td>
+<td>Reusable interface elements</td>
+<td><code>src/components/ui/</code></td>
+</tr>
+</tbody>
+</table>
+            <h3>3. AI Integration Layer</h3>
+            <table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Purpose</th>
+<th>Implementation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>LLMHelper</code></td>
+<td>Gemini API integration</td>
+<td><code>electron/LLMHelper.ts</code></td>
+</tr>
+<tr>
+<td><code>Content Generation</code></td>
+<td>Text/code generation</td>
+<td><code>LLMHelper.generateSolution()</code></td>
+</tr>
+<tr>
+<td><code>Multimodal Analysis</code></td>
+<td>Image/audio processing</td>
+<td><code>LLMHelper.analyze*()</code> methods</td>
+</tr>
+<tr>
+<td><code>Streaming Response</code></td>
+<td>Real-time output handling</td>
+<td><code>LLMHelper.generateSolutionStream()</code></td>
+</tr>
+</tbody>
+</table>
+            <h3>4. Data Storage</h3>
+            <p>Free-Cluely uses a combination of in-memory state and temporary file storage:</p>
+            <table>
+<thead>
+<tr>
+<th>Storage</th>
+<th>Purpose</th>
+<th>Implementation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Application State</td>
+<td>Runtime application configuration</td>
+<td><code>electron/main.ts</code> (AppState class)</td>
+</tr>
+<tr>
+<td>Query Client Cache</td>
+<td>UI data caching</td>
+<td>React Query in <code>src/App.tsx</code></td>
+</tr>
+<tr>
+<td>Temporary Files</td>
+<td>Screenshots and audio recordings</td>
+<td>System temp directory</td>
+</tr>
+</tbody>
+</table>
+            <h2>System Design Principles</h2>
+            <h3>1. Process Isolation</h3>
+            <p>Free-Cluely maintains strict separation between the main and renderer processes:</p>
+            <ul>
+                <li>Main process handles privileged operations (screenshots, file system, window management)</li>
+                <li>Renderer process focuses on UI rendering and user interactions</li>
+                <li>Communication occurs solely through the IPC bridge</li>
+            </ul>
+            <h3>2. Unidirectional Data Flow</h3>
+            <p>Data flows through the application in a predictable manner:</p>
+            <ol>
+                <li>User actions trigger events in the renderer process</li>
+                <li>Events are transmitted to the main process via IPC</li>
+                <li>Main process executes operations and updates application state</li>
+                <li>State changes are communicated back to the renderer process</li>
+                <li>UI updates based on new state</li>
+            </ol>
+            <h3>3. Stealth-First Design</h3>
+            <p>All components are designed with stealth and discretion as primary concerns, implementing multiple layers of privacy protection:</p>
+            <h4>Frameless Window Implementation</h4>
+            <ul>
+                <li>Completely frameless window with <code>frame: false</code> in Electron BrowserWindow options</li>
+                <li>Custom transparent background (<code>backgroundColor: "#00000000"</code>)</li>
+                <li>Variable opacity settings that adjust based on interaction state</li>
+                <li>No standard window decorations or OS chrome that would identify the application</li>
+                <li>Automatic window layering with <code>setAlwaysOnTop(true, "floating")</code> to remain visible</li>
+            </ul>
+            <h4>Visual Discretion Measures</h4>
+            <ul>
+                <li>Minimal UI footprint with semi-transparent elements (opacity: 0.7-0.8)</li>
+                <li>Dynamic blur effects that adapt to the underlying content</li>
+                <li>Automatic content resizing to minimize screen real estate</li>
+                <li>Monochromatic color scheme to avoid drawing attention</li>
+                <li>Subtle animations that don't distract peripheral vision</li>
+            </ul>
+            <h4>Interaction Stealth</h4>
+            <ul>
+                <li>Keyboard-driven interaction to reduce mouse dependency</li>
+                <li>Multiple keyboard shortcut combinations for common actions</li>
+                <li>Triple-Escape press pattern for stealth activation (less detectable than Ctrl+Alt combinations)</li>
+                <li>Window automatically adjusts position based on screen edges</li>
+            </ul>
+            <h4>Content Privacy</h4>
+            <ul>
+                <li>Auto-hiding toast notifications that self-destruct</li>
+                <li>"Confidential mode" that blurs content when unfocused</li>
+                <li>Screen content never persisted to disk beyond the current session</li>
+                <li>No window title or taskbar presence (<code>setSkipTaskbar(true)</code>)</li>
+                <li>Option to automatically minimize when another application is focused</li>
+            </ul>
+            <h2>Runtime Behavior</h2>
+            <h3>Application Startup Sequence</h3>
+            <ol>
+                <li>Main process initializes (<code>main.ts</code>)</li>
+                <li>Application state is created (AppState singleton)</li>
+                <li>IPC handlers are registered</li>
+                <li>Window creation and configuration</li>
+                <li>Renderer process loads React application</li>
+            </ol>
+            <h3>Processing Workflow</h3>
+            <ol>
+                <li>Input collection (screenshot, audio, or text)</li>
+                <li>Pre-processing in main process</li>
+                <li>LLMHelper sends data to Gemini API</li>
+                <li>Processing state updates sent to UI</li>
+                <li>Response received and parsed</li>
+                <li>Streaming chunks sent to UI (if streaming enabled)</li>
+                <li>Final result displayed in Solutions view</li>
+            </ol>
+            <h2>Subsystem Design</h2>
+            <h3>Window Management Subsystem</h3>
+            <p>The window management subsystem provides comprehensive stealth capabilities through:</p>
+            <h4>Core Window Stealth Techniques</h4>
+            <ul>
+                <li>Frameless, transparent windows with no OS-level window chrome</li>
+                <li>Custom-drawn window controls that blend with the application UI</li>
+                <li>BrowserWindow configuration that bypasses standard OS window management:
+<pre><code>const windowSettings: Electron.BrowserWindowConstructorOptions = {
+  webPreferences: { nodeIntegration: true, contextIsolation: true },
+  show: true,
+  alwaysOnTop: true,
+  frame: false,
+  transparent: true,
+  fullscreenable: false,
+  hasShadow: false,
+  backgroundColor: "#00000000",
+  focusable: true
+}
+</code></pre>
+                </li>
+                <li>Platform-specific optimizations:
+<pre><code>if (process.platform === "darwin") {
+  this.mainWindow.setVisibleOnAllWorkspaces(true, {
+    visibleOnFullScreen: true
+  })
+  this.mainWindow.setHiddenInMissionControl(true)
+}
+if (process.platform === "linux") {
+  if (this.mainWindow.setHasShadow) {
+    this.mainWindow.setHasShadow(false)
+  }
+  this.mainWindow.setFocusable(false)
+}
+</code></pre>
+                </li>
+                <li>Always-on-top behavior with configurable opacity</li>
+                <li>Automatic position memory between hide/show cycles</li>
+                <li>Content-aware resizing that minimizes window footprint</li>
+                <li>Multiple independent positioning methods:
+                    <ul>
+                        <li>Global keyboard shortcuts (Cmd/Ctrl + Arrow keys)</li>
+                        <li>Hidden touch zones for drag operations</li>
+                        <li>Automatic edge snapping</li>
+                    </ul>
+                </li>
+            </ul>
+            <pre><code>┌───────────────────────┐
+│  WindowHelper         │
+├───────────────────────┤
+│ - createWindow()      │
+│ - toggleMainWindow()  │
+│ - moveWindow*()       │
+│ - setWindowDimensions()│
+└─────────┬─────────────┘
+          │
+          ▼
+┌───────────────────────┐
+│  Keyboard Shortcuts    │
+└───────────────────────┘
+</code></pre>
+            <h3>AI Processing Subsystem</h3>
+            <p>The AI processing subsystem manages interactions with Google's Gemini models:</p>
+            <pre><code>┌───────────────────────┐
+│  ProcessingHelper     │
+├───────────────────────┤
+│ - processScreenshots()│
+│ - processAudio*()     │
+└─────────┬─────────────┘
+          │
+          ▼
+┌───────────────────────┐     ┌───────────────────────┐
+│  LLMHelper            │────►│  Gemini API           │
+├───────────────────────┤     └───────────────────────┘
+│ - generateSolution()  │
+│ - extractProblem()    │
+│ - analyzeImage/Audio()│
+└───────────────────────┘
+</code></pre>
+            <h2>Error Handling and Recovery</h2>
+            <p>Free-Cluely implements a comprehensive error handling strategy:</p>
+            <ol>
+                <li><strong>Graceful Degradation</strong>: Fall back to simpler functionality when advanced features fail</li>
+                <li><strong>Error Isolation</strong>: Errors in one component don't crash the entire application</li>
+                <li><strong>User Feedback</strong>: Errors are communicated to the user through the Toast system</li>
+                <li><strong>Automatic Recovery</strong>: The application attempts to restore normal operation after errors</li>
+            </ol>
+            <h2>Security and Privacy Considerations</h2>
+            <p>The system architecture implements comprehensive security and privacy protections for maximum stealth and discretion:</p>
+            <h3>Content Security</h3>
+            <ol>
+                <li><strong>Visual Privacy</strong>:
+                    <ul>
+                        <li>Auto-hiding UI elements when not in focus</li>
+                        <li>Content blur effect when another application is focused</li>
+                        <li>No screenshots or screen recordings of application content</li>
+                        <li>Reduced opacity when not actively being used</li>
+                    </ul>
+                </li>
+                <li><strong>Operational Security</strong>:
+                    <ul>
+                        <li>Window positioning away from standard screen locations</li>
+                        <li>No taskbar or dock presence (<code>setSkipTaskbar(true)</code>)</li>
+                        <li>Missing from Alt+Tab application switchers on some platforms</li>
+                        <li>Window title set to generic value to avoid suspicion in process lists</li>
+                    </ul>
+                </li>
+                <li><strong>Content Lifecycle</strong>:
+                    <ul>
+                        <li>All screenshots deleted after processing</li>
+                        <li>In-memory processing without disk caching where possible</li>
+                        <li>No session history or logs maintained</li>
+                        <li>Option to auto-clear content after period of inactivity</li>
+                    </ul>
+                </li>
+            </ol>
+            <h3>API and Data Security</h3>
+            <ol>
+                <li><strong>API Key Protection</strong>:
+                    <ul>
+                        <li>API keys stored in environment variables, never in code</li>
+                        <li>Keys accessible only to the main process, not renderer</li>
+                        <li>No API keys stored in application settings or configuration files</li>
+                        <li>Automatic token rotation support for enhanced security</li>
+                    </ul>
+                </li>
+                <li><strong>Process Isolation</strong>:
+                    <ul>
+                        <li>Sensitive operations run in the main process only</li>
+                        <li>Context isolation enforced through Electron's security features</li>
+                        <li>Preload script defines minimal API surface</li>
+                        <li>IPC validation of all incoming messages</li>
+                    </ul>
+                </li>
+                <li><strong>Minimal Persistence</strong>:
+                    <ul>
+                        <li>No user data stored persistently between sessions</li>
+                        <li>Temporary files automatically cleaned up on application exit</li>
+                        <li>No cookies or local storage used for sensitive information</li>
+                        <li>Option for "leave no trace" mode that removes all evidence of use</li>
+                    </ul>
+                </li>
+                <li><strong>Permission Scoping</strong>:
+                    <ul>
+                        <li>Microphone access only active during audio recording</li>
+                        <li>All system permissions clearly communicated to user</li>
+                        <li>No background processes that continue after application is closed</li>
+                    </ul>
+                </li>
+            </ol>
+            <h2>Performance Optimization</h2>
+            <ol>
+                <li><strong>Lazy Loading</strong>: Components are loaded only when needed</li>
+                <li><strong>Throttling</strong>: High-frequency events are throttled to reduce CPU usage</li>
+                <li><strong>Efficient IPC</strong>: Minimize data transfer between processes</li>
+                <li><strong>Streaming Responses</strong>: AI responses stream in chunks for faster perceived performance</li>
+            </ol>
+            <h2>Scalability Considerations</h2>
+            <p>While Free-Cluely is primarily a desktop application, the architecture allows for:</p>
+            <ol>
+                <li><strong>Model Switching</strong>: Easy transition between different AI models</li>
+                <li><strong>Feature Extensibility</strong>: New analysis capabilities can be added by extending the LLMHelper</li>
+                <li><strong>UI Adaptability</strong>: The interface automatically adjusts to different content sizes</li>
+            </ol>
+            <h2>Testing Strategy</h2>
+            <p>The system design supports several testing approaches:</p>
+            <ol>
+                <li><strong>Component Testing</strong>: Individual React components can be tested in isolation</li>
+                <li><strong>Integration Testing</strong>: IPC communication paths can be tested end-to-end</li>
+                <li><strong>Mock Services</strong>: AI services can be mocked for predictable testing</li>
+                <li><strong>User Interaction Testing</strong>: Keyboard shortcuts can be simulated</li>
+            </ol>
+            <h2>Future Architecture Extensions</h2>
+            <p>The current architecture allows for several planned enhancements:</p>
+            <ol>
+                <li><strong>Pluggable AI Models</strong>: Support for multiple AI providers beyond Gemini</li>
+                <li><strong>Enhanced Multimodal Support</strong>: Video analysis and additional input types</li>
+                <li><strong>Collaborative Features</strong>: Shared AI sessions between multiple users</li>
+                <li><strong>Additional Stealth Methods</strong>: More ways to interact discreetly with the application</li>
+            </ol>
+        </section>
+        <section id="data-flow">
+            <h1>Free-Cluely Data Flow Documentation</h1>
+            <h2>Overview</h2>
+            <p>This document details the flow of data through the Free-Cluely application, from user input capture to AI processing and response display. Understanding these data flows is essential for developers working on the codebase and for troubleshooting issues. All data flows have been designed with stealth and privacy as primary considerations, ensuring minimal visible footprint and maximum discretion.</p>
+            <h2>Core Data Flows</h2>
+            <h3>1. Screenshot Capture Flow</h3>
+            <pre><code>flowchart TD
+    A[User initiates screenshot] -->|Keyboard shortcut| B[ShortcutsHelper]
+    B -->|IPC call| C[ScreenshotHelper.takeScreenshot]
+    C -->|System call| D[Screenshot captured]
+    D -->|File saved| E[Temp file system]
+    E -->|Path returned| F[AppState.screenshotQueue]
+    F -->|IPC event| G[Renderer Process]
+    G -->|React state update| H[Queue Component Display]
+</code></pre>
+            <p><strong>Data Transformation:</strong></p>
+            <ol>
+                <li>User input (keyboard shortcut) → Event trigger</li>
+                <li>Native screen image → PNG file on disk</li>
+                <li>File path → Queue state in React</li>
+                <li>Image data → Thumbnail preview in UI</li>
+            </ol>
+            <h3>2. AI Analysis Flow</h3>
+            <pre><code>flowchart TD
+    A[Screenshots in queue] -->|User confirms| B[ProcessingHelper.processScreenshots]
+    B -->|Image data| C[LLMHelper.extractProblemFromImages]
+    C -->|Base64 encoded images + prompt| D[Gemini API]
+    D -->|JSON response| E[Problem extraction]
+    E -->|Structured data| F[AppState.problemInfo]
+    F -->|IPC event| G[Solutions Component]
+    G -->|React render| H[Problem display]
+</code></pre>
+            <p><strong>Data Transformation:</strong></p>
+            <ol>
+                <li>Image files → Base64 encoded strings</li>
+                <li>Multiple images + system prompt → Single API request</li>
+                <li>API JSON response → Structured problem information</li>
+                <li>Problem data → UI rendering of problem statement</li>
+            </ol>
+            <h3>3. AI Solution Generation Flow</h3>
+            <pre><code>flowchart TD
+    A[Problem information] -->|Automatic or manual trigger| B[LLMHelper.generateSolution]
+    B -->|JSON problem + prompt| C[Gemini API]
+    
+    subgraph "Response Handling"
+        C -->|Streaming mode| D1[generateContentStream]
+        C -->|Non-streaming mode| D2[generateContent]
+        D1 -->|Chunked response| E1[streamReply IPC event]
+        D2 -->|Complete response| E2[JSON parsing]
+    end
+    
+    E1 -->|Incremental updates| F1[Real-time UI updates]
+    E2 -->|Full solution| F2[Solution state update]
+    F1 -->|Complete message| G[Final solution display]
+    F2 -->|State change| G
+</code></pre>
+            <p><strong>Data Transformation:</strong></p>
+            <ol>
+                <li>Problem structure → AI prompt construction</li>
+                <li>API request → Text or JSON response</li>
+                <li>Raw response → Cleaned and parsed solution object</li>
+                <li>For streaming: Text chunks → Incremental UI updates</li>
+                <li>Solution object → Rendered code and explanation</li>
+            </ol>
+            <h3>4. Audio Analysis Flow</h3>
+            <pre><code>flowchart TD
+    A[Audio recording] -->|File selection or recording| B[Audio file]
+    B -->|LLMHelper.analyzeAudioFile| C[Audio processing]
+    C -->|Base64 encoding| D[Audio data preparation]
+    D -->|API request| E[Gemini API]
+    E -->|Text response| F[Text extraction]
+    F -->|IPC event| G[UI display]
+</code></pre>
+            <p><strong>Data Transformation:</strong></p>
+            <ol>
+                <li>Audio file → Base64 encoded string</li>
+                <li>Audio data + prompt → API request</li>
+                <li>Text response → Structured UI display</li>
+            </ol>
+            <h2>State Management</h2>
+            <h3>Main Process State</h3>
+            <p>The AppState class in the main process manages several key state objects:</p>
+            <pre><code>classDiagram
+    class AppState {
+        -WindowHelper windowHelper
+        -ScreenshotHelper screenshotHelper
+        -ShortcutsHelper shortcutsHelper
+        -ProcessingHelper processingHelper
+        -view: "queue" | "solutions"
+        -problemInfo: Object
+        -hasDebugged: boolean
+        +getMainWindow()
+        +getView()
+        +setView()
+        +getProblemInfo()
+        +setProblemInfo()
+        +getScreenshotQueue()
+        +getExtraScreenshotQueue()
+    }
+</code></pre>
+            <p><strong>Key State Elements:</strong></p>
+            <ul>
+                <li>Current view (queue/solutions)</li>
+                <li>Problem information structure</li>
+                <li>Screenshot queue contents</li>
+                <li>Processing status</li>
+            </ul>
+            <h3>Renderer Process State</h3>
+            <p>React components maintain their own state using React's useState and useEffect, while global state is managed through React Query:</p>
+            <pre><code>flowchart TD
+    A[React Query Client] -->|Query key: 'screenshots'| B[Screenshot data]
+    A -->|Query key: 'problem_statement'| C[Problem data]
+    A -->|Query key: 'solution'| D[Solution data]
+    
+    B -->|useQuery hook| E[Queue Component]
+    C -->|useQuery hook| F[Solutions Component]
+    D -->|useQuery hook| F
+    
+    G[Local Component State] -->|useState| H[UI Controls State]
+</code></pre>
+            <h2>Data Transformation Details</h2>
+            <h3>1. Image Processing</h3>
+            <p>Screenshots undergo the following transformations:</p>
+            <ol>
+                <li><strong>Capture</strong>: Raw pixel data → PNG image file</li>
+                <li><strong>Preview</strong>: PNG file → Resized thumbnail (using Sharp library)</li>
+                <li><strong>AI Processing</strong>:
+                    <ul>
+                        <li>PNG file → Base64 encoded string</li>
+                        <li>Base64 string → inlineData object with MIME type</li>
+                        <li>Multiple images → Parts array in API request</li>
+                    </ul>
+                </li>
+            </ol>
+            <h3>2. AI Prompt Construction</h3>
+            <pre><code>flowchart TD
+    A[System Prompt] -->|Concatenation| D[Complete Prompt]
+    B[Problem Data] -->|JSON.stringify| C[Problem String]
+    C -->|Concatenation| D
+    D -->|API Request| E[Gemini API]
+</code></pre>
+            <p>The system prompt defines the AI's behavior and the specific output format requirements.</p>
+            <h3>3. Response Processing</h3>
+            <pre><code>flowchart TD
+    A[API Response] -->|Text extraction| B[Raw text]
+    B -->|Markdown/JSON cleanup| C[Cleaned text]
+    C -->|JSON parsing| D[Structured data]
+    
+    subgraph "Error Handling"
+        C -->|Parse failure| E[Fallback extraction]
+        E -->|Regex matching| F[JSON-like content]
+        F -->|Retry parsing| D
+        F -->|Complete failure| G[Error state]
+    end
+</code></pre>
+            <h2>Cross-Process Communication</h2>
+            <p>All data that crosses the main/renderer process boundary does so through the IPC (Inter-Process Communication) mechanism:</p>
+            <h3>Main → Renderer Events</h3>
+            <table>
+<thead>
+<tr>
+<th>Event Name</th>
+<th>Data Payload</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>stream-reply</code></td>
+<td>Text chunk</td>
+<td>Streaming response updates</td>
+</tr>
+<tr>
+<td><code>screenshot-taken</code></td>
+<td>Path and preview</td>
+<td>New screenshot notification</td>
+</tr>
+<tr>
+<td><code>problem-extracted</code></td>
+<td>Problem object</td>
+<td>Problem analysis results</td>
+</tr>
+<tr>
+<td><code>solution-success</code></td>
+<td>Solution object</td>
+<td>Complete solution data</td>
+</tr>
+<tr>
+<td><code>initial-start</code></td>
+<td>None</td>
+<td>Processing started notification</td>
+</tr>
+<tr>
+<td><code>debug-success</code></td>
+<td>Debug results</td>
+<td>Debug analysis complete</td>
+</tr>
+</tbody>
+</table>
+            <h3>Renderer → Main Invocations</h3>
+            <table>
+<thead>
+<tr>
+<th>Invocation</th>
+<th>Parameters</th>
+<th>Return Value</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>take-screenshot</code></td>
+<td>None</td>
+<td>Path and preview</td>
+<td>Capture new screenshot</td>
+</tr>
+<tr>
+<td><code>generate-solution</code></td>
+<td>Problem info, stream flag</td>
+<td>Solution object</td>
+<td>Generate AI solution</td>
+</tr>
+<tr>
+<td><code>move-window-*</code></td>
+<td>None</td>
+<td>None</td>
+<td>Window positioning</td>
+</tr>
+<tr>
+<td><code>analyze-*</code></td>
+<td>File path or data</td>
+<td>Analysis results</td>
+<td>Process various inputs</td>
+</tr>
+</tbody>
+</table>
+            <h2>Data Security and Stealth Implementation</h2>
+            <h3>Sensitive Data Handling</h3>
+            <ol>
+                <li><strong>API Keys</strong>: Stored in environment variables, never in renderer process</li>
+                <li><strong>User Input</strong>: Processed in memory, with zero persistence after session</li>
+                <li><strong>File System</strong>: Uses temporary storage with secure deletion after processing</li>
+            </ol>
+            <h3>Data Transmission</h3>
+            <ol>
+                <li><strong>Gemini API</strong>: Uses HTTPS with API key authentication</li>
+                <li><strong>Local Communication</strong>: Process isolation through Electron's contextBridge</li>
+                <li><strong>Network Monitoring Protection</strong>: Requests masked to avoid detection by network monitoring tools</li>
+            </ol>
+            <h3>Visual Stealth Measures</h3>
+            <ol>
+                <li><strong>Frameless Windows</strong>: No standard window decorations or identifiable UI elements
+<pre><code>const windowSettings = {
+  frame: false,
+  transparent: true,
+  backgroundColor: "#00000000",
+  hasShadow: false
+};
+</code></pre>
+                </li>
+                <li><strong>Transparency Control</strong>: Dynamic opacity based on interaction state
+                    <ul>
+                        <li>Unfocused: 70% opacity</li>
+                        <li>Focused: 85% opacity</li>
+                        <li>Hidden mode: 0% opacity with click-through enabled</li>
+                    </ul>
+                </li>
+                <li><strong>Auto-Positioning Logic</strong>: Window automatically moves to less conspicuous screen locations
+                    <ul>
+                        <li>Edge detection to avoid center screen placement</li>
+                        <li>Smart positioning away from other application windows</li>
+                        <li>Avoids predictable screen positions</li>
+                    </ul>
+                </li>
+                <li><strong>Content Privacy Features</strong>:
+                    <ul>
+                        <li>Automatic content blurring when other applications are focused</li>
+                        <li>Text scrambling during window transitions</li>
+                        <li>Size minimization to reduce screen footprint</li>
+                        <li>No taskbar or dock presence (<code>setSkipTaskbar(true)</code>)</li>
+                    </ul>
+                </li>
+            </ol>
+            <h2>Caching and Performance</h2>
+            <h3>Data Caching Strategy</h3>
+            <ol>
+                <li><strong>React Query</strong>: Caches API responses with Infinity staleTime</li>
+                <li><strong>Image Previews</strong>: Generated once and reused</li>
+                <li><strong>API Responses</strong>: Cached in memory for quick reuse</li>
+            </ol>
+            <h3>Optimized Data Flows</h3>
+            <ol>
+                <li><strong>Streaming Responses</strong>: Chunks processed and displayed incrementally</li>
+                <li><strong>Throttled Events</strong>: High-frequency events are throttled</li>
+            </ol>
+            <h2>Debugging Data Flows</h2>
+            <p>For development and troubleshooting:</p>
+            <ol>
+                <li><strong>Console Logging</strong>: Strategic points in data flow have logging</li>
+                <li><strong>Error Boundaries</strong>: React components catch and display errors</li>
+                <li><strong>State Inspection</strong>: React DevTools can inspect component state</li>
+            </ol>
+            <h2>Edge Cases and Error Handling</h2>
+            <ol>
+                <li><strong>Network Failures</strong>: Graceful degradation with error reporting</li>
+                <li><strong>Malformed API Responses</strong>: JSON parsing with fallback extraction</li>
+                <li><strong>Missing Input</strong>: Validation checks before processing</li>
+                <li><strong>Resource Constraints</strong>: Memory usage monitoring and cleanup</li>
+                <li><strong>Stealth Compromise Detection</strong>: Self-monitoring for visibility issues
+                    <ul>
+                        <li>Detects when window becomes too visible</li>
+                        <li>Automatically adjusts opacity or position</li>
+                        <li>Can self-hide if suspicious activity detected</li>
+                    </ul>
+                </li>
+            </ol>
+            <h2>Stealth Mode Exit Strategy</h2>
+            <p>A key component of the stealth implementation is the ability to quickly exit stealth mode when needed:</p>
+            <pre><code>flowchart TD
+    A[Detect exit trigger] -->|Keyboard shortcut| B[Initiate exit sequence]
+    B -->|Stop all AI processing| C[Cancel pending requests]
+    C -->|Clear memory| D[Secure memory wipe]
+    D -->|Clean temporary files| E[Secure file deletion]
+    E -->|Hide UI| F[Set opacity to 0]
+    F -->|Remove window| G[Close application]
+</code></pre>
+            <ol>
+                <li><strong>Panic Button</strong>: Escape key pressed 5 times rapidly</li>
+                <li><strong>Memory Clearing</strong>: All sensitive data immediately wiped</li>
+                <li><strong>Visual Cleanup</strong>: Instant opacity reduction to 0</li>
+                <li><strong>Process Termination</strong>: Complete application shutdown with no traces</li>
+            </ol>
+            <h2>Conclusion</h2>
+            <p>The Free-Cluely application employs a carefully designed data flow architecture that balances performance, security, and user experience, with stealth as a primary design consideration. Every data path, visual element, and interaction method has been engineered to minimize detectability while maintaining full functionality. The multi-process nature of Electron is leveraged to maintain process isolation while enabling rich functionality through controlled data exchange via IPC mechanisms, all while ensuring the application remains virtually invisible to casual observers.</p>
+        </section>
+        <section id="stealth-features">
+            <h1>Free-Cluely: Advanced Stealth Implementation</h1>
+            <h2>Overview</h2>
+            <p>Free-Cluely is designed from the ground up as a covert AI assistance tool that maintains complete discretion in professional environments. This document details the comprehensive stealth capabilities implemented throughout the application.</p>
+            <h2>Core Stealth Philosophy</h2>
+            <p>The stealth implementation follows three core principles:</p>
+            <ol>
+                <li><strong>Visual Discretion</strong>: Minimize visible footprint on screen</li>
+                <li><strong>Interaction Invisibility</strong>: Enable control without obvious user actions</li>
+                <li><strong>Content Security</strong>: Protect sensitive information from observation</li>
+            </ol>
+            <h2>Window Stealth Implementation</h2>
+            <h3>Frameless Window Architecture</h3>
+            <pre><code>const windowSettings: Electron.BrowserWindowConstructorOptions = {
+  height: 600,
+  minWidth: undefined,
+  maxWidth: undefined,
+  x: this.currentX,
+  y: 0,
+  webPreferences: {
+    nodeIntegration: true,
+    contextIsolation: true,
+    preload: path.join(__dirname, "preload.js")
+  },
+  show: true,
+  alwaysOnTop: true,
+  frame: false,
+  transparent: true,
+  fullscreenable: false,
+  hasShadow: false,
+  backgroundColor: "#00000000",
+  focusable: true
+}
+</code></pre>
+            <p>The BrowserWindow configuration achieves stealth through:</p>
+            <ul>
+                <li><strong>No Window Frame</strong>: Eliminates all standard OS window decorations</li>
+                <li><strong>Full Transparency</strong>: Background completely transparent when needed</li>
+                <li><strong>No Shadow</strong>: Removes telltale drop shadows that would outline the window</li>
+                <li><strong>AlwaysOnTop</strong>: Ensures visibility without requiring focus</li>
+                <li><strong>Dynamic Sizing</strong>: No fixed dimensions that would create a recognizable shape</li>
+            </ul>
+            <h3>Platform-Specific Stealth Optimizations</h3>
+            <pre><code>// macOS-specific stealth features
+if (process.platform === "darwin") {
+  this.mainWindow.setVisibleOnAllWorkspaces(true, {
+    visibleOnFullScreen: true
+  })
+  this.mainWindow.setHiddenInMissionControl(true)
+  this.mainWindow.setAlwaysOnTop(true, "floating")
+}
+
+// Linux-specific stealth features
+if (process.platform === "linux") {
+  if (this.mainWindow.setHasShadow) {
+    this.mainWindow.setHasShadow(false)
+  }
+  this.mainWindow.setFocusable(false)
+} 
+
+// Windows & all platforms
+this.mainWindow.setSkipTaskbar(true)
+</code></pre>
+            <p>These optimizations ensure:</p>
+            <ul>
+                <li><strong>No Taskbar Presence</strong>: Window doesn't appear in OS taskbar/dock</li>
+                <li><strong>Mission Control Hiding</strong>: Doesn't appear in macOS Mission Control</li>
+                <li><strong>Alt+Tab Exclusion</strong>: Doesn't appear in app switcher on most platforms</li>
+                <li><strong>Workspace Persistence</strong>: Appears across virtual desktops/spaces</li>
+            </ul>
+            <h2>UI Stealth Features</h2>
+            <h3>Minimal Visual Footprint</h3>
+            <ul>
+                <li>Semi-transparent background (configurable opacity)</li>
+                <li>Reduced contrast color scheme to avoid drawing attention</li>
+                <li>Content-aware sizing that uses minimal screen space</li>
+                <li>Subtle animations that don't trigger peripheral vision</li>
+                <li>Auto-hiding UI elements when not actively used</li>
+            </ul>
+            <h3>Status Indicators</h3>
+            <pre><code>
+</code></pre>
+            <p>All status indicators feature:</p>
+            <ul>
+                <li>Extremely small footprint (typically under 100px)</li>
+                <li>Very low opacity (0.4-0.6)</li>
+                <li>Brief display duration (1-2 seconds)</li>
+                <li>Auto-hiding behavior</li>
+                <li>Neutral colors that blend with background</li>
+                <li>Position away from center of vision</li>
+            </ul>
+            <h2>Audio/Visual Stealth Features</h2>
+            <h3>Screenshot Capture Stealth</h3>
+            <pre><code>// Before taking screenshot
+this.hideMainWindow();
+
+// Take screenshot with system API
+const screenshotPath = await screenshot({ format: 'png' });
+
+// After screenshot
+this.showMainWindow();
+</code></pre>
+            <ul>
+                <li>Window auto-hides before taking screenshots</li>
+                <li>Screenshots stored in temp directory with random names</li>
+                <li>Images securely deleted after processing</li>
+                <li>No screenshot history maintained</li>
+            </ul>
+            <h3>Audio Processing Stealth</h3>
+            <ul>
+                <li>Audio recording with minimal UI indication</li>
+                <li>Background noise filtering to allow quiet speaking</li>
+                <li>Audio files stored in memory where possible</li>
+                <li>Secure deletion after processing</li>
+            </ul>
+            <h2>Content Security Features</h2>
+            <h3>Ephemeral Content Handling</h3>
+            <ul>
+                <li>No persistent storage of AI interactions</li>
+                <li>Memory-only processing where possible</li>
+                <li>Secure temp file handling with guaranteed deletion</li>
+                <li>No history or logs of past sessions</li>
+            </ul>
+            <h3>Content Obscuring</h3>
+            <pre><code>// Blur content when window loses focus
+window.addEventListener('blur', () => {
+  if (contentRef.current) {
+    contentRef.current.style.filter = 'blur(5px)';
+  }
+});
+
+window.addEventListener('focus', () => {
+  if (contentRef.current) {
+    contentRef.current.style.filter = 'none';
+  }
+});
+</code></pre>
+            <ul>
+                <li>Auto-blur when window loses focus</li>
+                <li>Text scrambling during transitions</li>
+                <li>Option to apply continuous subtle visual noise</li>
+                <li>Privacy screen effect from certain viewing angles</li>
+            </ul>
+            <h2>Communication Stealth</h2>
+            <h3>Network Traffic Obfuscation</h3>
+            <ul>
+                <li>API requests made only from main process (not renderer)</li>
+                <li>No identifying information in request headers</li>
+                <li>Standard request patterns to avoid detection by network monitoring</li>
+            </ul>
+            <h3>Streaming Implementation</h3>
+            <pre><code>// Process each chunk in the stream
+for await (const response of streamingResponse) {
+  // Each chunk contains text that we can extract
+  if (response.text) {
+    console.log(`[LLMHelper] Received chunk: ${response.text.substring(0, 20)}...`);
+    fullText += response.text;
+    this.streamReply(response.text);
+  }
+}
+</code></pre>
+            <ul>
+                <li>Incremental text updates appear naturally</li>
+                <li>No sudden content changes that draw attention</li>
+                <li>Real-time display matches natural reading pace</li>
+            </ul>
+            <h2>Emergency Stealth Features</h2>
+            <h3>Panic Button</h3>
+            <pre><code>// Register global shortcut
+globalShortcut.register('CommandOrControl+Escape', () => {
+  this.hideMainWindow();
+  this.clearAllData();
+});
+</code></pre>
+            <ul>
+                <li>Cmd/Ctrl+Escape instantly hides window</li>
+                <li>Option for complete application shutdown</li>
+                <li>Secure memory wiping on exit</li>
+                <li>Deletion of all temporary files</li>
+            </ul>
+            <h3>Auto-Detection</h3>
+            <ul>
+                <li>Application can detect when screen is being shared/recorded</li>
+                <li>Auto-hides or reduces opacity during screen sharing</li>
+                <li>Detects nearby mobile devices via Bluetooth (optional)</li>
+                <li>Can enter ultra-stealth mode in open office environments</li>
+            </ul>
+            <h2>Stealth UX Considerations</h2>
+            <h3>Gradual Response Rendering</h3>
+            <ul>
+                <li>AI responses appear incrementally, simulating natural typing</li>
+                <li>No sudden UI changes that would draw attention</li>
+                <li>Animation timing matched to human reading speed</li>
+                <li>Smooth transitions between states</li>
+            </ul>
+            <h3>Adaptive Position Awareness</h3>
+            <pre><code>// Automatic edge detection and positioning
+const primaryDisplay = screen.getPrimaryDisplay();
+const workArea = primaryDisplay.workAreaSize;
+const maxX = workArea.width - newWidth;
+const newX = Math.min(Math.max(currentX, 0), maxX);
+</code></pre>
+            <ul>
+                <li>Window automatically positions away from screen center</li>
+                <li>Avoids covering other application windows</li>
+                <li>Smart positioning near screen edges</li>
+                <li>Remembers position between sessions</li>
+            </ul>
+            <h2>Conclusion</h2>
+            <p>Free-Cluely's stealth implementation represents a comprehensive approach to creating a truly discreet AI assistant. By combining frameless window techniques, minimal visual design, and secure data handling, the application provides powerful AI capabilities that remain virtually invisible to observers.</p>
+            <p>The multi-layered stealth approach ensures that users can leverage AI assistance in any professional environment without drawing attention or revealing that they are using AI support.</p>
+        </section>
+        <section id="readme">
+            <h1>Free Cluely</h1>
+            <p>A desktop application to help you cheat on everything. A stealth AI assistant that provides discreet help in professional environments.</p>
+            <h2>📚 Documentation</h2>
+            <p>For a comprehensive understanding of this project, please review:</p>
+            <ul>
+                <li><strong><a href="#project-documentation">PROJECT_DOCUMENTATION.md</a></strong> - Complete project overview</li>
+                <li><strong><a href="#system-design">SYSTEM_DESIGN.md</a></strong> - Detailed system architecture</li>
+                <li><strong><a href="#data-flow">DATA_FLOW.md</a></strong> - Data flow diagrams and explanations</li>
+                <li><strong><a href="#stealth-features">STEALTH_FEATURES.md</a></strong> - Comprehensive stealth implementation details</li>
+            </ul>
+            <h2>🚀 Quick Start Guide</h2>
+            <h3>Prerequisites</h3>
+            <ul>
+                <li>Make sure you have Node.js installed on your computer</li>
+                <li>Git installed on your computer</li>
+                <li>A Gemini API key (get it from <a href="https://makersuite.google.com/app/apikey">Google AI Studio</a>)</li>
+            </ul>
+            <h3>Installation Steps</h3>
+            <ol>
+                <li>Clone the repository:
+<pre><code>git clone [repository-url]
+cd interview-coder
+</code></pre>
+                </li>
+                <li>Install dependencies:
+<pre><code>npm install
+</code></pre>
+                </li>
+                <li>Set up environment variables:
+                    <ul>
+                        <li>Create a file named <code>.env</code> in the root folder</li>
+                        <li>Add your Gemini API key:
+<pre><code>GEMINI_API_KEY=your_api_key_here
+</code></pre>
+                        </li>
+                        <li>Save the file</li>
+                    </ul>
+                </li>
+            </ol>
+            <h3>Running the App</h3>
+            <h4>Method 1: Development Mode (Recommended for first run)</h4>
+            <ol>
+                <li>Open a terminal and run:
+<pre><code>npm run dev -- --port 5180
+</code></pre>
+                </li>
+                <li>Open another terminal in the same folder and run:
+<pre><code>NODE_ENV=development npm run electron:dev
+</code></pre>
+                </li>
+            </ol>
+            <h4>Method 2: Production Mode</h4>
+            <pre><code>npm run build
+</code></pre>
+            <p>The built app will be in the <code>release</code> folder.</p>
+            <h3>⚠️ Important Notes</h3>
+            <ol>
+                <li><strong>Closing the App</strong>:
+                    <ul>
+                        <li>Press <code>Cmd + Q</code> (Mac) or <code>Ctrl + Q</code> (Windows/Linux) to quit</li>
+                        <li>Or use Activity Monitor/Task Manager to close <code>Interview Coder</code></li>
+                        <li>The X button currently doesn't work (known issue)</li>
+                    </ul>
+                </li>
+                <li><strong>If the app doesn't start</strong>:
+                    <ul>
+                        <li>Make sure no other app is using port 5180</li>
+                        <li>Try killing existing processes:
+<pre><code># Find processes using port 5180
+lsof -i :5180
+# Kill them (replace [PID] with the process ID)
+kill [PID]
+</code></pre>
+                        </li>
+                    </ul>
+                </li>
+                <li><strong>Keyboard Shortcuts</strong>:
+                    <ul>
+                        <li><code>Cmd/Ctrl + B</code>: Toggle window visibility</li>
+                        <li><code>Cmd/Ctrl + H</code>: Take screenshot</li>
+                        <li>'Cmd/Enter': Get solution</li>
+                        <li><code>Cmd/Ctrl + Arrow Keys</code>: Move window</li>
+                        <li><code>Cmd/Ctrl+Escape</code>: Emergency hide (panic button)</li>
+                    </ul>
+                </li>
+            </ol>
+            <h3>Troubleshooting</h3>
+            <p>If you see errors:</p>
+            <ol>
+                <li>Delete the <code>node_modules</code> folder</li>
+                <li>Delete <code>package-lock.json</code></li>
+                <li>Run <code>npm install</code> again</li>
+                <li>Try running the app again using Method 1</li>
+            </ol>
+            <h2>Advanced Features</h2>
+            <p>For details on all stealth features, see <a href="#stealth-features">STEALTH_FEATURES.md</a>.</p>
+            <h2>Frameless Window Design</h2>
+            <p>The application uses a completely frameless, transparent window design:</p>
+            <ul>
+                <li>No window chrome or standard OS controls</li>
+                <li>Variable opacity based on interaction state</li>
+                <li>Not visible in taskbar/dock or application switchers</li>
+                <li>Content-aware sizing that minimizes screen real estate</li>
+            </ul>
+            <p>See <a href="#system-design">SYSTEM_DESIGN.md</a> for technical implementation details.</p>
+            <h2>Contribution</h2>
+            <p>I'm unable to maintain this repo actively because I do not have the time for it. Please do not create issues, if you have any PRs feel free to create them and i'll review and merge it.</p>
+            <p>If you are looking to integrate this for your company, i can work with you to create custom solutions.</p>
+        </section>
+        <section id="system-architecture">
+            <h2>System Architecture</h2>
+            <pre><code>+---------------------------------------------+
+|               FREE-CLUELY SYSTEM            |
++---------------------------------------------+
+                      |
+            +---------+---------+
+            |                   |
++-----------v-----------+     +-v-------------------+
+|    ELECTRON MAIN      |     |  ELECTRON RENDERER  |
+|       PROCESS         |     |      PROCESS        |
++-----------------------+     +---------------------+
+|                       |     |                     |
+| +-------------------+ |     | +---------------+   |
+| |   WindowHelper    | |     | |               |   |
+| +-------------------+ |     | |     React     |   |
+| |                   | |     | |     App       |   |
+| | - Window Management| |     | |               |   |
+| | - Stealth Controls | |     | +-------+-------+   |
+| +-------------------+ |     |         |           |
+|                       |     |         |           |
+| +-------------------+ |     | +-------v-------+   |
+| | ScreenshotHelper  | |     | |               |   |
+| +-------------------+ |     | |    Queue /    |   |
+| |                   | |     | |   Solutions   |   |
+| | - Image Capture   | |     | |     Views     |   |
+| | - Image Processing| |     | |               |   |
+| +-------------------+ |     | +-------+-------+   |
+|                       |     |         |           |
+| +-------------------+ |     | +-------v-------+   |
+| |  ProcessingHelper | |     | |               |   |
+| +-------------------+ |     | |  UI           |   |
+| |                   | |     | |  Components   |   |
+| | - Workflow Control| |     | |               |   |
+| | - State Management| |     | +---------------+   |
+| +-------------------+ |     |                     |
+|         |             |     |                     |
+| +-------v---------+   |     |   +--------------+ |
+| |                 |   |     |   |              | |
+| |   LLMHelper     |<--+-----+-->|  React Query | |
+| +-----------------+   |     |   |    Cache     | |
+| |                 |   |     |   |              | |
+| | - Gemini API    |   |     |   +--------------+ |
+| | - AI Processing |   |     |                     |
+| +-----------------+   |     |                     |
+|         |             |     |                     |
++---------+-------------+     +---------------------+
+          |                                |
+          |       +---------------+        |
+          +------>|     IPC      |<-------+
+                  | Communication |
+                  +-------+-------+
+                          |
+                  +-------v-------+
+                  |               |
+                  |  Google       |
+                  |  Gemini API   |
+                  |               |
+                  +---------------+
+</code></pre>
+        </section>
+    </main>
+    <script>
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('nav a').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+
+            document.querySelector(this.getAttribute('href')).scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+    });
+});
+    </script>
+</body>
+</html>
