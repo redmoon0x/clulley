@@ -23,10 +23,9 @@ export class ProcessingHelper {
       throw new Error("GEMINI_API_KEY not found in environment variables")
     }
     
-    // Initialize LLMHelper with the API key and main window
-    const mainWindow = appState.getMainWindow()
-    this.llmHelper = new LLMHelper(apiKey, mainWindow)
-    console.log(`[ProcessingHelper] Initialized LLMHelper with mainWindow: ${mainWindow ? 'available' : 'null'}`)
+    // Initialize LLMHelper with the API key and appState
+    this.llmHelper = new LLMHelper(apiKey, this.appState)
+    console.log(`[ProcessingHelper] Initialized LLMHelper with appState`)
   }
 
   public async processScreenshots(): Promise<void> {

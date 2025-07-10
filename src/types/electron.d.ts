@@ -23,10 +23,12 @@ export interface ElectronAPI {
   analyzeAudioFromBase64: (data: string, mimeType: string) => Promise<{ text: string; timestamp: number }>
   analyzeAudioFile: (path: string) => Promise<{ text: string; timestamp: number }>
   quitApp: () => Promise<void>
+  onShowContextForm: (callback: () => void) => () => void;
+  setUserContext: (context: { meetingTopic: string; userRole: string }) => Promise<{ success: boolean }>;
 }
 
 declare global {
   interface Window {
     electronAPI: ElectronAPI
   }
-} 
+}

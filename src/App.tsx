@@ -1,54 +1,10 @@
 import { ToastProvider } from "./components/ui/toast"
 import Queue from "./_pages/Queue"
 import { ToastViewport } from "@radix-ui/react-toast"
-import { useEffect, useRef, useState } from "react"
+import React, { useRef, useEffect, useState } from "react";
 import Solutions from "./_pages/Solutions"
 import { QueryClient, QueryClientProvider } from "react-query"
-
-declare global {
-  interface Window {
-    electronAPI: {
-      //RANDOM GETTER/SETTERS
-      updateContentDimensions: (dimensions: {
-        width: number
-        height: number
-      }) => Promise<void>
-      getScreenshots: () => Promise<Array<{ path: string; preview: string }>>
-
-      //GLOBAL EVENTS
-      //TODO: CHECK THAT PROCESSING NO SCREENSHOTS AND TAKE SCREENSHOTS ARE BOTH CONDITIONAL
-      onUnauthorized: (callback: () => void) => () => void
-      onScreenshotTaken: (
-        callback: (data: { path: string; preview: string }) => void
-      ) => () => void
-      onProcessingNoScreenshots: (callback: () => void) => () => void
-      onResetView: (callback: () => void) => () => void
-      takeScreenshot: () => Promise<void>
-
-      //INITIAL SOLUTION EVENTS
-      deleteScreenshot: (
-        path: string
-      ) => Promise<{ success: boolean; error?: string }>
-      onSolutionStart: (callback: () => void) => () => void
-      onSolutionError: (callback: (error: string) => void) => () => void
-      onSolutionSuccess: (callback: (data: any) => void) => () => void
-      onProblemExtracted: (callback: (data: any) => void) => () => void
-
-      onDebugSuccess: (callback: (data: any) => void) => () => void
-
-      onDebugStart: (callback: () => void) => () => void
-      onDebugError: (callback: (error: string) => void) => () => void
-
-      // Audio Processing
-      analyzeAudioFromBase64: (data: string, mimeType: string) => Promise<{ text: string; timestamp: number }>
-      analyzeAudioFile: (path: string) => Promise<{ text: string; timestamp: number }>
-
-      moveWindowLeft: () => Promise<void>
-      moveWindowRight: () => Promise<void>
-      quitApp: () => Promise<void>
-    }
-  }
-}
+import ContextForm from "./components/ContextForm" // Import the new component
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -59,9 +15,16 @@ const queryClient = new QueryClient({
   }
 })
 
+interface UserContext {
+  meetingTopic: string;
+  userRole: string;
+}
+
 const App: React.FC = () => {
   const [view, setView] = useState<"queue" | "solutions" | "debug">("queue")
+  const [userContext, setUserContext] = useState<UserContext | null>(null);
   const containerRef = useRef<HTMLDivElement>(null)
+  const solutionsRef = useRef<any>(null);
 
   // Effect for height monitoring
   useEffect(() => {
@@ -152,6 +115,23 @@ const App: React.FC = () => {
     return () => cleanupFunctions.forEach((cleanup) => cleanup())
   }, [])
 
+  // Listen for context form shortcut and show the form in Solutions overlay
+  useEffect(() => {
+    const cleanup = window.electronAPI.onShowContextForm(() => {
+      if (view === "solutions" && solutionsRef.current && solutionsRef.current.showContextForm) {
+        solutionsRef.current.showContextForm();
+      } else {
+        setView("solutions");
+        setTimeout(() => {
+          if (solutionsRef.current && solutionsRef.current.showContextForm) {
+            solutionsRef.current.showContextForm();
+          }
+        }, 50);
+      }
+    });
+    return () => cleanup();
+  }, [view]);
+
   return (
     <div ref={containerRef} className="min-h-0">
       <QueryClientProvider client={queryClient}>
@@ -159,7 +139,7 @@ const App: React.FC = () => {
           {view === "queue" ? (
             <Queue setView={setView} />
           ) : view === "solutions" ? (
-            <Solutions setView={setView} />
+            <Solutions ref={solutionsRef} setView={setView} />
           ) : (
             <></>
           )}

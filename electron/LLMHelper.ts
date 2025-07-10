@@ -1,11 +1,13 @@
 import { GoogleGenAI } from "@google/genai"
 import fs from "fs"
 import { BrowserWindow } from "electron"
+import { AppState } from "./main" // Import AppState
 
 export class LLMHelper {
   private ai: GoogleGenAI
   private modelName: string = "gemini-2.0-flash"
   private mainWindow: BrowserWindow | null = null
+  private appState: AppState; // Add appState property
   private readonly systemPrompt = `You are Cluely, a helpful AI assistant for software engineers. When a user shares a screenshot, error message, or question, you will:
 
 Understand the user’s intent — what are they trying to do?
@@ -22,7 +24,7 @@ Most importantly: Be useful, fast, and straight to the point.
 
 Act as if you are answering in a meeting as a person.`
 
-  constructor(apiKey: string, mainWindow?: BrowserWindow | null) {
+  constructor(apiKey: string, appState: AppState, mainWindow?: BrowserWindow | null) {
     if (!apiKey) {
       console.error("[LLMHelper] No API key provided");
       throw new Error("API key is required for LLMHelper initialization");
@@ -30,6 +32,7 @@ Act as if you are answering in a meeting as a person.`
     
     console.log("[LLMHelper] Initializing with API key and model:", this.modelName);
     this.ai = new GoogleGenAI({ apiKey });
+    this.appState = appState; // Set appState
     this.mainWindow = mainWindow || null;
     
     if (this.mainWindow) {
@@ -122,7 +125,13 @@ Act as if you are answering in a meeting as a person.`
   }
 
   public async generateSolution(problemInfo: any, stream: boolean = false) {
-    const prompt = `${this.systemPrompt}\n\nGiven this problem or situation:\n${JSON.stringify(problemInfo, null, 2)}\n\nProvide a solution with code, restate the problem, give context, suggest responses, and explain reasoning in JSON format. Return ONLY the JSON object without markdown or code blocks.`
+    let contextString = "";
+    const userContext = this.appState.getUserContext();
+    if (userContext) {
+      contextString = `Context:\n- Meeting Topic: ${userContext.meetingTopic}\n- User Role: ${userContext.userRole}\n\n`;
+    }
+
+    const prompt = `${this.systemPrompt}\n\n${contextString}Live Input:\n- Screen Text: ${JSON.stringify(problemInfo, null, 2)}\n- User Said: ...\n\nBased on this, give a relevant, helpful suggestion.`;
 
     console.log(`[LLMHelper] Calling Gemini LLM for solution... (streaming: ${stream})`);
     try {
@@ -291,4 +300,4 @@ Act as if you are answering in a meeting as a person.`
       throw error;
     }
   }
-} 
+}

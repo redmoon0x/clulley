@@ -1,5 +1,5 @@
 // Solutions.tsx
-import React, { useState, useEffect, useRef } from "react"
+import React, { useState, useEffect, useRef, forwardRef, useImperativeHandle } from "react"
 import { useQuery, useQueryClient } from "react-query"
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter"
 import { dracula } from "react-syntax-highlighter/dist/esm/styles/prism"
@@ -127,7 +127,7 @@ export const ComplexitySection = ({
 interface SolutionsProps {
   setView: React.Dispatch<React.SetStateAction<"queue" | "solutions" | "debug">>
 }
-const Solutions: React.FC<SolutionsProps> = ({ setView }) => {
+const Solutions = forwardRef(function SolutionsWithContextForm({ setView }, ref) {
   const queryClient = useQueryClient()
   const contentRef = useRef<HTMLDivElement>(null)
 
@@ -147,6 +147,49 @@ const Solutions: React.FC<SolutionsProps> = ({ setView }) => {
     null
   )
   const [customContent, setCustomContent] = useState<string | null>(null)
+  const [showContextForm, setShowContextForm] = useState(false);
+
+  useImperativeHandle(ref, () => ({
+    showContextForm: () => setShowContextForm(true)
+  }));
+
+  const [meetingTopic, setMeetingTopic] = useState("");
+  const [userRole, setUserRole] = useState("");
+  const [contextStatus, setContextStatus] = useState<string>("");
+
+  const handleSetContext = async () => {
+    try {
+      await window.electronAPI.setUserContext({ meetingTopic, userRole });
+      setContextStatus("Context set!");
+      setTimeout(() => setContextStatus(""), 1500);
+      setShowContextForm(false);
+      // If there is no problem loaded, close the overlay
+      setTimeout(() => {
+        if (!problemStatementData) {
+          setView && setView("queue");
+        }
+      }, 0);
+    } catch (e) {
+      setContextStatus("Failed to set context");
+      setTimeout(() => setContextStatus(""), 1500);
+    }
+  };
+
+  const handleInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      handleSetContext();
+    }
+  };
+
+  const handleCancelContext = () => {
+    setShowContextForm(false);
+    // If there is no problem loaded, close the overlay
+    setTimeout(() => {
+      if (!problemStatementData) {
+        setView && setView("queue");
+      }
+    }, 0);
+  };
 
   const [toastOpen, setToastOpen] = useState(false)
   const [toastMessage, setToastMessage] = useState<ToastMessage>({
@@ -452,6 +495,43 @@ const Solutions: React.FC<SolutionsProps> = ({ setView }) => {
             setIsProcessing={setDebugProcessing}
           />
         </>
+      ) : showContextForm ? (
+        <div className="flex items-center justify-center min-h-screen w-full overflow-hidden">
+          <div className="w-full max-w-md bg-black/60 rounded-lg border border-white/10 p-6 flex flex-col items-center justify-center">
+            <h2 className="text-base font-semibold text-white/90 mb-4 text-center">Provide Context</h2>
+            <input
+              type="text"
+              placeholder="Meeting topic"
+              value={meetingTopic}
+              onChange={e => setMeetingTopic(e.target.value)}
+              onKeyDown={handleInputKeyDown}
+              className="w-full bg-white/10 text-white placeholder-white/60 border border-white/10 rounded px-2 py-2 text-sm outline-none focus:ring-2 focus:ring-blue-400/30 focus:border-blue-400/30 transition mb-3"
+            />
+            <input
+              type="text"
+              placeholder="Your role"
+              value={userRole}
+              onChange={e => setUserRole(e.target.value)}
+              onKeyDown={handleInputKeyDown}
+              className="w-full bg-white/10 text-white placeholder-white/60 border border-white/10 rounded px-2 py-2 text-sm outline-none focus:ring-2 focus:ring-blue-400/30 focus:border-blue-400/30 transition mb-3"
+            />
+            <div className="flex gap-2 w-full justify-end">
+              <button
+                onClick={handleCancelContext}
+                className="bg-white/10 text-white px-3 py-1 rounded border border-white/10 text-sm hover:bg-white/20 transition"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleSetContext}
+                className="bg-blue-500/80 text-white px-3 py-1 rounded border border-blue-500/40 text-sm hover:bg-blue-600/80 transition"
+              >
+                Set Context
+              </button>
+            </div>
+            {contextStatus && <span className="mt-2 text-xs text-white/80">{contextStatus}</span>}
+          </div>
+        </div>
       ) : (
         <div ref={contentRef} className="relative space-y-3 px-4 py-3">
           <Toast
@@ -496,13 +576,13 @@ const Solutions: React.FC<SolutionsProps> = ({ setView }) => {
                     content={problemStatementData.problem_statement}
                     isLoading={false}
                   />
-                ) : (
+                ) : !problemStatementData ? null : (
                   <>
                     {/* Problem Statement Section - Only for non-manual */}
                     <ContentSection
                       title={problemStatementData?.output_format?.subtype === "voice" ? "Voice Input" : "Problem Statement"}
                       content={problemStatementData?.problem_statement}
-                      isLoading={!problemStatementData}
+                      isLoading={false}
                     />
                     {/* Show loading state when waiting for solution */}
                     {problemStatementData && !solutionData && (
@@ -561,6 +641,6 @@ const Solutions: React.FC<SolutionsProps> = ({ setView }) => {
       )}
     </>
   )
-}
+})
 
 export default Solutions

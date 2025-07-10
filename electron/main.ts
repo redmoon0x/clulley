@@ -25,6 +25,7 @@ export class AppState {
   } | null = null // Allow null
 
   private hasDebugged: boolean = false
+  private userContext: { meetingTopic: string; userRole: string } | null = null;
 
   // Processing events
   public readonly PROCESSING_EVENTS = {
@@ -190,6 +191,15 @@ export class AppState {
 
   public getHasDebugged(): boolean {
     return this.hasDebugged
+  }
+
+  public setUserContext(context: { meetingTopic: string; userRole: string }): void {
+    this.userContext = context;
+    console.log("User context set in AppState:", this.userContext);
+  }
+
+  public getUserContext(): { meetingTopic: string; userRole: string } | null {
+    return this.userContext;
   }
 }
 

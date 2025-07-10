@@ -145,4 +145,9 @@ export function initializeIpcHandlers(appState: AppState): void {
   ipcMain.handle("quit-app", () => {
     app.quit()
   })
+
+  ipcMain.handle("set-user-context", async (event, context: { meetingTopic: string; userRole: string }) => {
+    appState.setUserContext(context);
+    return { success: true };
+  });
 }

@@ -34,6 +34,8 @@ interface ElectronAPI {
   analyzeImageFile: (path: string) => Promise<void>
   generateSolution: (problemInfo: any, stream?: boolean) => Promise<any>
   quitApp: () => Promise<void>
+  onShowContextForm: (callback: () => void) => () => void;
+  setUserContext: (context: { meetingTopic: string; userRole: string }) => Promise<{ success: boolean }>;
 }
 
 export const PROCESSING_EVENTS = {
@@ -176,5 +178,14 @@ contextBridge.exposeInMainWorld("electronAPI", {
   },
   generateSolution: (problemInfo: any, stream: boolean = false) => 
     ipcRenderer.invoke("generate-solution", problemInfo, stream),
-  quitApp: () => ipcRenderer.invoke("quit-app")
+  quitApp: () => ipcRenderer.invoke("quit-app"),
+  onShowContextForm: (callback: () => void) => {
+    const subscription = () => callback();
+    ipcRenderer.on("show-context-form", subscription);
+    return () => {
+      ipcRenderer.removeListener("show-context-form", subscription);
+    };
+  },
+  setUserContext: (context: { meetingTopic: string; userRole: string }) => 
+    ipcRenderer.invoke("set-user-context", context),
 } as ElectronAPI)

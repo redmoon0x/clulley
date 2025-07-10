@@ -90,6 +90,14 @@ export class ShortcutsHelper {
       }
     })
 
+    globalShortcut.register("CommandOrControl+Shift+C", () => {
+      console.log("CommandOrControl+Shift+C pressed. Showing context form.")
+      const mainWindow = this.appState.getMainWindow()
+      if (mainWindow && !mainWindow.isDestroyed()) {
+        mainWindow.webContents.send("show-context-form")
+      }
+    })
+
     // Unregister shortcuts when quitting
     app.on("will-quit", () => {
       globalShortcut.unregisterAll()
