@@ -1,4 +1,5 @@
-import { app, BrowserWindow, session, desktopCapturer } from "electron"
+import { app, BrowserWindow, session, desktopCapturer, dialog } from "electron"
+const { initMain } = require("electron-audio-loopback")
 import { initializeIpcHandlers } from "./ipcHandlers"
 import { WindowHelper } from "./WindowHelper"
 import { ScreenshotHelper } from "./ScreenshotHelper"
@@ -203,6 +204,8 @@ export class AppState {
     return this.userContext;
   }
 }
+
+initMain(); // Initialize audio loopback plugin before app is ready
 
 // Application initialization
 async function initializeApp() {
