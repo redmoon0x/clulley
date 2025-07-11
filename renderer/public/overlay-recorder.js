@@ -38,12 +38,17 @@ async function startRecording() {
     mediaRecorder.ondataavailable = (e) => {
       if (e.data.size > 0) recordedChunks.push(e.data);
     };
-    mediaRecorder.onstop = () => {
-      stopTimer();
-      saveRecordingToVideos();
-      if (window.overlayAPI) window.overlayAPI.close();
-      isRecording = false;
-    };
+mediaRecorder.onstop = () => {
+  stopTimer();
+  saveRecordingToVideos();
+  isRecording = false;
+  // Ensure overlay closes after save completes
+  setTimeout(() => {
+    if (window.overlayAPI) window.overlayAPI.close();
+    // As a fallback, also try to close the window directly if possible
+    if (window.close) window.close();
+  }, 300);
+};
 
     mediaRecorder.start();
     startTime = Date.now();
