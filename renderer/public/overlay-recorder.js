@@ -21,16 +21,41 @@ function updateTimer() {
 
 async function startRecording() {
   try {
-    const stream = await navigator.mediaDevices.getDisplayMedia({ video: true, audio: true });
-    // Optionally add mic
+    const displayStream = await navigator.mediaDevices.getDisplayMedia({ video: true, audio: true });
     let micStream = null;
     try {
       micStream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
     } catch {}
-    let tracks = [...stream.getVideoTracks()];
-    let audioTracks = [...stream.getAudioTracks()];
-    if (micStream) audioTracks.push(...micStream.getAudioTracks());
-    const combinedStream = new MediaStream([...tracks, ...audioTracks]);
+
+    // Collect all audio tracks
+    const audioSources = [];
+    if (displayStream.getAudioTracks().length > 0) {
+      audioSources.push(displayStream);
+    }
+    if (micStream && micStream.getAudioTracks().length > 0) {
+      audioSources.push(micStream);
+    }
+
+    // Mix audio tracks into one
+    let mixedAudioStream = null;
+    if (audioSources.length > 0) {
+      const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      const destination = audioContext.createMediaStreamDestination();
+
+      audioSources.forEach(srcStream => {
+        const source = audioContext.createMediaStreamSource(srcStream);
+        source.connect(destination);
+      });
+
+      mixedAudioStream = destination.stream;
+    }
+
+    // Combine video track with mixed audio
+    const tracks = [...displayStream.getVideoTracks()];
+    if (mixedAudioStream && mixedAudioStream.getAudioTracks().length > 0) {
+      tracks.push(mixedAudioStream.getAudioTracks()[0]);
+    }
+    const combinedStream = new MediaStream(tracks);
 
     mediaRecorder = new MediaRecorder(combinedStream, { mimeType: "video/webm; codecs=vp9" });
     recordedChunks = [];
