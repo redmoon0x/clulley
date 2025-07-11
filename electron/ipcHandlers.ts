@@ -2,6 +2,12 @@
 
 import { ipcMain, app, IpcMainInvokeEvent, BrowserWindow } from "electron"
 import { AppState } from "./main"
+import fs from "fs"
+import path from "path"
+const LOG_PATH = path.join(process.cwd(), "recording-debug.log");
+function logToFile(...args: any[]) {
+  fs.appendFileSync(LOG_PATH, args.map(a => (typeof a === "string" ? a : JSON.stringify(a))).join(" ") + "\n");
+}
 
 export function initializeIpcHandlers(appState: AppState): void {
   ipcMain.handle(
@@ -78,6 +84,53 @@ export function initializeIpcHandlers(appState: AppState): void {
       console.error("Error in analyze-audio-base64 handler:", error)
       throw error
     }
+  })
+
+  // IPC handler for saving screen recording to disk
+  ipcMain.handle("save-recording", async (event, { buffer, path: filePath }) => {
+    try {
+      const dir = path.dirname(filePath)
+      if (!fs.existsSync(dir)) {
+        fs.mkdirSync(dir, { recursive: true })
+        logToFile("[SAVE] Created directory:", dir)
+      }
+      logToFile("[SAVE] Writing file to:", filePath, "Buffer size:", buffer ? buffer.byteLength : "undefined")
+      fs.writeFileSync(filePath, Buffer.from(buffer))
+      logToFile("[SAVE] File written successfully:", filePath)
+      return { success: true }
+    } catch (error: any) {
+      logToFile("[SAVE] Error saving recording:", error)
+      return { success: false, error: error.message }
+    }
+  })
+
+  // IPC handler to start or stop screen recording (toggle)
+  ipcMain.handle("start-stop-recording", async (event) => {
+    const mainWindow = appState.getMainWindow()
+    if (!mainWindow) return { success: false, error: "No main window" }
+
+    // Use desktopCapturer to get the screen source
+    // @ts-ignore
+    const { desktopCapturer } = require("electron");
+    const sources = await desktopCapturer.getSources({ types: ["screen"] })
+    if (!sources.length) return { success: false, error: "No screen sources found" }
+
+    // Pick the first screen (or you can add logic to pick a specific one)
+    const source = sources[0]
+    // Generate output path
+    const recordingsDir = path.join(app.getPath("videos"), "cluely-recordings")
+    if (!fs.existsSync(recordingsDir)) {
+      fs.mkdirSync(recordingsDir, { recursive: true })
+    }
+    const timestamp = new Date().toISOString().replace(/[:.]/g, "-")
+    const outputPath = path.join(recordingsDir, `recording-${timestamp}.webm`)
+
+    // Forward to renderer to start/stop recording
+    mainWindow.webContents.send("toggle-screen-recording", {
+      sourceId: source.id,
+      outputPath
+    })
+    return { success: true }
   })
 
   // IPC handler for analyzing audio from file path

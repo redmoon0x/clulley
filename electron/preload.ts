@@ -22,8 +22,6 @@ interface ElectronAPI {
   onProcessingNoScreenshots: (callback: () => void) => () => void
   onProblemExtracted: (callback: (data: any) => void) => () => void
   onSolutionSuccess: (callback: (data: any) => void) => () => void
-  onStreamReply: (callback: (chunk: string) => void) => () => void
-
   onUnauthorized: (callback: () => void) => () => void
   onDebugError: (callback: (error: string) => void) => () => void
   takeScreenshot: () => Promise<void>
@@ -36,6 +34,14 @@ interface ElectronAPI {
   quitApp: () => Promise<void>
   onShowContextForm: (callback: () => void) => () => void;
   setUserContext: (context: { meetingTopic: string; userRole: string }) => Promise<{ success: boolean }>;
+
+  // Screen recording
+  startScreenRecording: (options: any) => Promise<void>
+  stopScreenRecording: () => Promise<void>
+  onScreenRecordingStarted: (callback: () => void) => () => void
+  onScreenRecordingStopped: (callback: () => void) => () => void
+  onScreenRecordingError: (callback: (error: string) => void) => () => void
+  saveRecording: (args: { buffer: ArrayBuffer, path: string }) => Promise<void>
 }
 
 export const PROCESSING_EVENTS = {
@@ -63,6 +69,32 @@ contextBridge.exposeInMainWorld("electronAPI", {
   getScreenshots: () => ipcRenderer.invoke("get-screenshots"),
   deleteScreenshot: (path: string) =>
     ipcRenderer.invoke("delete-screenshot", path),
+
+  // Screen recording
+  startScreenRecording: (options: any) => ipcRenderer.invoke("start-screen-recording", options),
+  stopScreenRecording: () => ipcRenderer.invoke("stop-screen-recording"),
+  saveRecording: (args: { buffer: ArrayBuffer, path: string }) => ipcRenderer.invoke("save-recording", args),
+  onScreenRecordingStarted: (callback: () => void) => {
+    const subscription = () => callback()
+    ipcRenderer.on("screen-recording-started", subscription)
+    return () => {
+      ipcRenderer.removeListener("screen-recording-started", subscription)
+    }
+  },
+  onScreenRecordingStopped: (callback: () => void) => {
+    const subscription = () => callback()
+    ipcRenderer.on("screen-recording-stopped", subscription)
+    return () => {
+      ipcRenderer.removeListener("screen-recording-stopped", subscription)
+    }
+  },
+  onScreenRecordingError: (callback: (error: string) => void) => {
+    const subscription = (_: any, error: string) => callback(error)
+    ipcRenderer.on("screen-recording-error", subscription)
+    return () => {
+      ipcRenderer.removeListener("screen-recording-error", subscription)
+    }
+  },
 
   // Event listeners
   onScreenshotTaken: (

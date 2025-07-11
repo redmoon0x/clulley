@@ -98,6 +98,16 @@ export class ShortcutsHelper {
       }
     })
 
+    // Overlay screen recording shortcut: Ctrl+Shift+R
+    globalShortcut.register("CommandOrControl+Shift+R", () => {
+      // Dynamically import to avoid circular dependency
+      // eslint-disable-next-line @typescript-eslint/no-var-requires
+      const { createOverlayRecorderWindow, isOverlayOpen } = require("./OverlayRecorderWindow");
+      if (!isOverlayOpen()) {
+        createOverlayRecorderWindow();
+      }
+    });
+
     // Unregister shortcuts when quitting
     app.on("will-quit", () => {
       globalShortcut.unregisterAll()

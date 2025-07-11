@@ -1,9 +1,10 @@
-import { app, BrowserWindow } from "electron"
+import { app, BrowserWindow, session, desktopCapturer } from "electron"
 import { initializeIpcHandlers } from "./ipcHandlers"
 import { WindowHelper } from "./WindowHelper"
 import { ScreenshotHelper } from "./ScreenshotHelper"
 import { ShortcutsHelper } from "./shortcuts"
 import { ProcessingHelper } from "./ProcessingHelper"
+import { createOverlayRecorderWindow } from "./OverlayRecorderWindow"
 
 export class AppState {
   private static instance: AppState | null = null
@@ -210,7 +211,16 @@ async function initializeApp() {
   // Initialize IPC handlers before window creation
   initializeIpcHandlers(appState)
 
+  // Set up screen capture handler for Electron 25+
   app.whenReady().then(() => {
+    // Enable getDisplayMedia for screen capture
+    session.defaultSession.setDisplayMediaRequestHandler((request, callback) => {
+      desktopCapturer.getSources({ types: ['screen'] }).then((sources) => {
+        // Grant access to the first screen found
+        callback({ video: sources[0], audio: 'loopback' });
+      });
+    }, { useSystemPicker: true });
+
     console.log("App is ready")
     appState.createWindow()
     // Register global shortcuts using ShortcutsHelper
