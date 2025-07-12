@@ -37,7 +37,18 @@ const QueueCommands: React.FC<QueueCommandsProps> = ({
     if (!isRecording) {
       // Start recording
       try {
-        const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
+        // Get system audio (uses loopback on macOS)
+        const stream = await navigator.mediaDevices.getDisplayMedia({ 
+          audio: true,
+          video: true // Required by API, but we'll remove it
+        });
+        
+        // Remove video track since we only need audio
+        stream.getVideoTracks().forEach(track => {
+          track.stop();
+          stream.removeTrack(track);
+        });
+
         const recorder = new MediaRecorder(stream)
         recorder.ondataavailable = (e) => chunks.current.push(e.data)
         recorder.onstop = async () => {
