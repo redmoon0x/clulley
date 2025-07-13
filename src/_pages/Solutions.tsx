@@ -127,7 +127,7 @@ export const ComplexitySection = ({
 interface SolutionsProps {
   setView: React.Dispatch<React.SetStateAction<"queue" | "solutions" | "debug">>
 }
-const Solutions = forwardRef(function SolutionsWithContextForm({ setView }, ref) {
+const Solutions = forwardRef<{ showContextForm: () => void }, SolutionsProps>(function SolutionsWithContextForm({ setView }, ref) {
   const queryClient = useQueryClient()
   const contentRef = useRef<HTMLDivElement>(null)
 
