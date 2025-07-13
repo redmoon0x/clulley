@@ -1,4 +1,3 @@
-
 import { BrowserWindow, screen } from "electron"
 import { AppState } from "main"
 import path from "node:path"
@@ -7,7 +6,7 @@ const isDev = process.env.NODE_ENV === "development"
 
 const startUrl = isDev
   ? "http://localhost:5173"
-  : `file://${path.join(__dirname, "../dist/index.html")}`
+  : `file://${path.join(__dirname, "..", "dist", "index.html")}`
 
 export class WindowHelper {
   private mainWindow: BrowserWindow | null = null
@@ -75,12 +74,15 @@ export class WindowHelper {
     this.step = Math.floor(this.screenWidth / 10) // 10 steps
     this.currentX = 0 // Start at the left
 
+    // Set a larger, resizable window for better UI fit
     const windowSettings: Electron.BrowserWindowConstructorOptions = {
-      height: 600,
-      minWidth: undefined,
-      maxWidth: undefined,
+      width: 1200,
+      height: 800,
+      minWidth: 900,
+      minHeight: 600,
       x: this.currentX,
       y: 0,
+      resizable: true,
       webPreferences: {
         nodeIntegration: true,
         contextIsolation: true,
@@ -97,7 +99,6 @@ export class WindowHelper {
     }
 
     this.mainWindow = new BrowserWindow(windowSettings)
-    // this.mainWindow.webContents.openDevTools()
     this.mainWindow.setContentProtection(true)
 
     if (process.platform === "darwin") {
@@ -119,6 +120,14 @@ export class WindowHelper {
 
     this.mainWindow.loadURL(startUrl).catch((err) => {
       console.error("Failed to load URL:", err)
+    })
+
+    // Log the startUrl being used
+    console.log("Loading URL:", startUrl)
+
+    // Add load event handlers
+    this.mainWindow.webContents.on('did-fail-load', (event, errorCode, errorDescription) => {
+      console.error('Failed to load:', errorCode, errorDescription)
     })
 
     const bounds = this.mainWindow.getBounds()

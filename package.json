@@ -1,27 +1,31 @@
 {
   "name": "interview-coder",
   "version": "1.0.0",
-  "main": "./dist-electron/main.js",
+  "main": "dist-electron/main.js",
   "scripts": {
-    "clean": "rimraf dist dist-electron",
+    "clean": "rimraf dist dist-electron dist-release2 release",
     "dev": "vite",
-    "build": "npm run clean && tsc && vite build",
+    "build": "pnpm run clean && tsc -p electron/tsconfig.json && vite build",
     "preview": "vite preview",
     "electron:dev": "tsc -p electron/tsconfig.json && electron .",
     "app:dev": "concurrently \"vite\" \"tsc -p electron/tsconfig.json && wait-on http://localhost:5173 && cross-env NODE_ENV=development electron .\"",
-    "app:build": "npm run build && electron-builder",
+    "app:build": "pnpm run clean && tsc -p electron/tsconfig.json && vite build && electron-builder",
     "watch": "tsc -p electron/tsconfig.json --watch"
   },
   "build": {
-    "appId": "com.electron.interview-coder",
-    "productName": "Interview Coder",
+    "appId": "com.clulley.app",
+    "productName": "clulley",
     "files": [
       "dist/**/*",
       "dist-electron/**/*",
+      "renderer/public/overlay-recorder.html",
       "package.json"
     ],
+    "asarUnpack": [
+      "node_modules/screenshot-desktop/**/*"
+    ],
     "directories": {
-      "output": "release"
+      "output": "dist-release2"
     },
     "mac": {
       "category": "public.app-category.utilities",
@@ -36,7 +40,8 @@
         "nsis",
         "portable"
       ],
-      "icon": "assets/icons/win/icon.ico"
+      "icon": "assets/icons/win/icon.ico",
+      "sign": false
     },
     "linux": {
       "target": [
@@ -94,6 +99,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "diff": "^7.0.0",
+    "dotenv": "^17.2.0",
     "electron-audio-loopback": "^1.0.3",
     "form-data": "^4.0.1",
     "lucide-react": "^0.460.0",
