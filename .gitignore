@@ -137,4 +137,5 @@ dist
 
 # Electron build output
 dist-electron/
+dist-release2/
 .cursor
