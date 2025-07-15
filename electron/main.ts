@@ -207,45 +207,72 @@ export class AppState {
 
 initMain(); // Initialize audio loopback plugin before app is ready
 
+import * as fs from "fs";
+import * as path from "path";
+import * as dotenv from "dotenv";
+
+/**
+ * Load .env for both dev and packaged builds
+ */
+function loadEnv() {
+  if (app.isPackaged) {
+    // In packaged build, .env should be in resourcesPath
+    const envPath = path.join(process.resourcesPath, ".env");
+    if (fs.existsSync(envPath)) {
+      dotenv.config({ path: envPath });
+    }
+  } else {
+    // In dev, load from project root
+    dotenv.config();
+  }
+}
+
 // Application initialization
 async function initializeApp() {
-  const appState = AppState.getInstance()
+  loadEnv();
+  // Log to file for debugging packaged startup issues
+  const logPath = path.join(app.getPath("userData"), "main-process.log");
+  fs.appendFileSync(logPath, `[${new Date().toISOString()}] Electron main process started\n`);
+
+  const appState = AppState.getInstance();
 
   // Initialize IPC handlers before window creation
-  initializeIpcHandlers(appState)
+  initializeIpcHandlers(appState);
 
-  // Set up screen capture handler for Electron 25+
   app.whenReady().then(() => {
+    fs.appendFileSync(logPath, `[${new Date().toISOString()}] app.whenReady\n`);
     // Enable getDisplayMedia for screen capture
     session.defaultSession.setDisplayMediaRequestHandler((request, callback) => {
       desktopCapturer.getSources({ types: ['screen'] }).then((sources) => {
-        // Grant access to the first screen found
         callback({ video: sources[0], audio: 'loopback' });
       });
     }, { useSystemPicker: true });
 
-    console.log("App is ready")
-    appState.createWindow()
-    // Register global shortcuts using ShortcutsHelper
-    appState.shortcutsHelper.registerGlobalShortcuts()
-  })
+    fs.appendFileSync(logPath, `[${new Date().toISOString()}] Creating main window\n`);
+    appState.createWindow();
+    appState.shortcutsHelper.registerGlobalShortcuts();
+  });
 
   app.on("activate", () => {
-    console.log("App activated")
+    fs.appendFileSync(logPath, `[${new Date().toISOString()}] App activated\n`);
     if (appState.getMainWindow() === null) {
-      appState.createWindow()
+      appState.createWindow();
     }
-  })
+  });
 
-  // Quit when all windows are closed, except on macOS
   app.on("window-all-closed", () => {
+    fs.appendFileSync(logPath, `[${new Date().toISOString()}] window-all-closed\n`);
     if (process.platform !== "darwin") {
-      app.quit()
+      app.quit();
     }
-  })
+  });
 
-  app.dock?.hide() // Hide dock icon (optional)
-  app.commandLine.appendSwitch("disable-background-timer-throttling")
+  try {
+    app.dock?.hide();
+  } catch (e) {
+    fs.appendFileSync(logPath, `[${new Date().toISOString()}] app.dock?.hide() error: ${e}\n`);
+  }
+  app.commandLine.appendSwitch("disable-background-timer-throttling");
 }
 
 // Start the application

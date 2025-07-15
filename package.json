@@ -16,10 +16,14 @@
     "appId": "com.clulley.app",
     "productName": "clulley",
     "files": [
+      { "from": ".env", "to": "resources/.env" },
       "dist/**/*",
       "dist-electron/**/*",
       "renderer/public/overlay-recorder.html",
-      "package.json"
+      "package.json",
+      "chrome_100_percent.pak",
+      "resources.pak",
+      "locales/**"
     ],
     "asarUnpack": [
       "node_modules/screenshot-desktop/**/*"
@@ -27,6 +31,12 @@
     "directories": {
       "output": "dist-release2"
     },
+    "extraFiles": [
+      {
+        "from": ".env",
+        "to": "resources/.env"
+      }
+    ],
     "mac": {
       "category": "public.app-category.utilities",
       "target": [
